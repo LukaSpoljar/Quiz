@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {ClientRoutes} from "../../Shared/Routes/ClientRoutes";
 import {Router} from "@angular/router";
 
@@ -9,9 +9,9 @@ import {Router} from "@angular/router";
 })
 export class NavigationComponent {
 
-  readonly clientRoutes : ClientRoutes;
+  readonly clientRoutes: ClientRoutes;
 
-  constructor(private _router:Router) {
+  constructor(private _router: Router) {
     this.clientRoutes = new ClientRoutes(this._router);
   }
 }
