@@ -1,8 +1,9 @@
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
-export class ClientRoutes{
+export class ClientRoutes {
 
-  constructor(private _router: Router) {}
+  constructor(private _router: Router, private _activatedRoute?: ActivatedRoute) {
+  }
 
   /*Login route*/
   navigateToLogin(): Promise<boolean> | null {
@@ -26,5 +27,20 @@ export class ClientRoutes{
   navigateToDashboardMakeQuiz(): Promise<boolean> | null {
     let path: string = 'MakeQuiz';
     return this._router.navigate([path]);
+  }
+
+  /*Solve Quiz route*/
+  navigateToDashboardSolveQuiz(uuid: string): Promise<boolean> | null {
+    let path: string = 'SolveQuiz';
+    return this._router.navigate([path, uuid]);
+  }
+
+  getRouteParameter(paramName: string): string | null {
+
+    let valueToReturn: string | null = null;
+    if (this._activatedRoute && paramName) {
+      valueToReturn = this._activatedRoute.snapshot.params[paramName];
+    }
+    return valueToReturn;
   }
 }
