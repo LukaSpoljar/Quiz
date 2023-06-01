@@ -1,5 +1,6 @@
 package hr.tvz.project.quizbackend.entity;
 
+import hr.tvz.project.quizbackend.logic.HelperFunctions;
 import jakarta.persistence.*;
 
 import java.util.UUID;
@@ -11,7 +12,7 @@ public class Player {
         return "Player{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
+                ", password='" + hashedPassword + '\'' +
                 ", uuid='" + uuid + '\'' +
                 '}';
     }
@@ -24,7 +25,7 @@ public class Player {
     private String username;
 
     @Column(nullable=false)
-    private String password;
+    private String hashedPassword;
 
     @Column(unique = true, name = "uuid", nullable = false)
     private String uuid = UUID.randomUUID().toString().toUpperCase();
@@ -42,7 +43,9 @@ public class Player {
 
     public Player(String username, String password) {
         this.username = username;
-        this.password = password;
+        byte[] hashedPasswordBytes = HelperFunctions.stringToSha256(password);
+        String hashedPassword = HelperFunctions.bytesToHex(hashedPasswordBytes);
+        this.hashedPassword = hashedPassword;
     }
 
     public void setId(Long id) {
@@ -61,12 +64,29 @@ public class Player {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
+    public String getHashedPassword() {
+        return hashedPassword;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setHashedPassword(String nonHashedPassword) {
+        byte[] hashedPasswordBytes = HelperFunctions.stringToSha256(nonHashedPassword);
+        String hashedPassword = HelperFunctions.bytesToHex(hashedPasswordBytes);
+        this.hashedPassword = hashedPassword;
+    }
+
+
+    /**
+     * Check if input password matches the one in player.
+     *
+     * @param password A raw password string (not hashed).
+     * @return True if password hash matches the one in Player
+     */
+    public boolean checkPassword(String password) {
+        byte[] hashedPasswordBytes = HelperFunctions.stringToSha256(password);
+        String hashedPassword = HelperFunctions.bytesToHex(hashedPasswordBytes);
+
+        boolean passwordsMatch = this.getHashedPassword().equals(hashedPassword);
+        return passwordsMatch;
     }
 
 }
