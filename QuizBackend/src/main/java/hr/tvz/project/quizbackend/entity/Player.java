@@ -37,15 +37,10 @@ public class Player {
         return uuid;
     }
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
-
     public Player(String username, String password) {
         this.username = username;
         byte[] hashedPasswordBytes = HelperFunctions.stringToSha256(password);
-        String hashedPassword = HelperFunctions.bytesToHex(hashedPasswordBytes);
-        this.hashedPassword = hashedPassword;
+        this.hashedPassword = HelperFunctions.bytesToHex(hashedPasswordBytes);
     }
 
     public void setId(Long id) {
@@ -73,7 +68,6 @@ public class Player {
         String hashedPassword = HelperFunctions.bytesToHex(hashedPasswordBytes);
         this.hashedPassword = hashedPassword;
     }
-
 
     /**
      * Check if input password matches the one in player.
