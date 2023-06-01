@@ -1,12 +1,20 @@
 package hr.tvz.project.quizbackend.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.UUID;
 
 @Entity
 public class Player {
+    @Override
+    public String toString() {
+        return "Player{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", uuid='" + uuid + '\'' +
+                '}';
+    }
 
     @Id
     @GeneratedValue
@@ -18,7 +26,18 @@ public class Player {
     @Column(nullable=false)
     private String password;
 
+    @Column(unique = true, name = "uuid", nullable = false)
+    private String uuid = UUID.randomUUID().toString().toUpperCase();
+
     public Player() {
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     public Player(String username, String password) {
@@ -50,12 +69,4 @@ public class Player {
         this.password = password;
     }
 
-    @Override
-    public String toString() {
-        return "Player{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                '}';
-    }
 }
