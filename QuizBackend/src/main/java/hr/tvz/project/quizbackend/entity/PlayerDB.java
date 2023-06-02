@@ -5,17 +5,11 @@ import jakarta.persistence.*;
 
 import java.util.UUID;
 
+/**
+ * Player class used in H2 database
+ */
 @Entity
-public class Player {
-    @Override
-    public String toString() {
-        return "Player{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + hashedPassword + '\'' +
-                ", uuid='" + uuid + '\'' +
-                '}';
-    }
+public class PlayerDB {
 
     @Id
     @GeneratedValue
@@ -30,14 +24,14 @@ public class Player {
     @Column(unique = true, name = "uuid", nullable = false)
     private String uuid = UUID.randomUUID().toString().toUpperCase();
 
-    public Player() {
+    public PlayerDB() {
     }
 
     public String getUuid() {
         return uuid;
     }
 
-    public Player(String username, String password) {
+    public PlayerDB(String username, String password) {
         this.username = username;
         byte[] hashedPasswordBytes = HelperFunctions.stringToSha256(password);
         this.hashedPassword = HelperFunctions.bytesToHex(hashedPasswordBytes);
@@ -81,6 +75,16 @@ public class Player {
 
         boolean passwordsMatch = this.getHashedPassword().equals(hashedPassword);
         return passwordsMatch;
+    }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + hashedPassword + '\'' +
+                ", uuid='" + uuid + '\'' +
+                '}';
     }
 
 }
