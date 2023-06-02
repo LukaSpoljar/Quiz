@@ -1,6 +1,7 @@
 package hr.tvz.project.quizbackend.service;
 
-import hr.tvz.project.quizbackend.entity.Player;
+import hr.tvz.project.quizbackend.domain.PlayerDTO;
+import hr.tvz.project.quizbackend.entity.PlayerDB;
 import hr.tvz.project.quizbackend.repository.PlayerRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,16 +16,29 @@ public class PlayerService {
         this.playerRepository = playerRepository;
     }
 
-    public Optional<Player> getPlayer(Long id) {
-        return playerRepository.findById(id);
+    private Optional<PlayerDTO> convertPlayerDBToPlayerDTO(Optional<PlayerDB> playerDB) {
+        if (playerDB.isEmpty()) {
+            return Optional.empty();
+        }
+        else {
+            PlayerDTO playerDTO = new PlayerDTO(playerDB.get());
+            return Optional.of(playerDTO);
+        }
     }
 
-    public Optional<Player> getPlayer(String username) {
-        return playerRepository.findByUsername(username);
+    public Optional<PlayerDTO> getPlayer(Long id) {
+        Optional<PlayerDB> playerDB = playerRepository.findById(id);
+        return convertPlayerDBToPlayerDTO(playerDB);
     }
 
-    public Optional<Player> getPlayerByUuid(String uuid) {
-        return playerRepository.findByUuid(uuid);
+    public Optional<PlayerDTO> getPlayer(String username) {
+        Optional<PlayerDB> playerDB = playerRepository.findByUsername(username);
+        return convertPlayerDBToPlayerDTO(playerDB);
+    }
+
+    public Optional<PlayerDTO> getPlayerByUuid(String uuid) {
+        Optional<PlayerDB> playerDB = playerRepository.findByUuid(uuid);
+        return convertPlayerDBToPlayerDTO(playerDB);
     }
 
     /**
@@ -35,9 +49,9 @@ public class PlayerService {
      * @return New player's token (UUID)
      */
     public String createPlayer(String username, String password) {
-        Player player = new Player(username, password);
-        playerRepository.save(player);
-        String playerUuid = player.getUuid();
+        PlayerDB playerDB = new PlayerDB(username, password);
+        playerRepository.save(playerDB);
+        String playerUuid = playerDB.getUuid();
         return playerUuid;
     }
 

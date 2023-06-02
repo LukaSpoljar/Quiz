@@ -1,8 +1,7 @@
 package hr.tvz.project.quizbackend.controllers;
 
-import hr.tvz.project.quizbackend.entity.Player;
+import hr.tvz.project.quizbackend.domain.PlayerDTO;
 import hr.tvz.project.quizbackend.service.PlayerService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +33,7 @@ public class PlayerController {
     @GetMapping("/getPlayer/{id}")
     public ResponseEntity<?> getPlayer(@PathVariable Long id)
     {
-        Optional<Player> player = playerService.getPlayer(id);
+        Optional<PlayerDTO> player = playerService.getPlayer(id);
         if (player.isPresent())
         {
             return new ResponseEntity<>(player, HttpStatus.OK);
