@@ -15,9 +15,30 @@ public class PlayerService {
         this.playerRepository = playerRepository;
     }
 
-    public Optional<Player> getPlayer(Long id)
-    {
+    public Optional<Player> getPlayer(Long id) {
         return playerRepository.findById(id);
+    }
+
+    public Optional<Player> getPlayer(String username) {
+        return playerRepository.findByUsername(username);
+    }
+
+    public Optional<Player> getPlayerByUuid(String uuid) {
+        return playerRepository.findByUuid(uuid);
+    }
+
+    /**
+     * Insert a player in database. Does not perform any checking prior to add.
+     *
+     * @param username Player's username
+     * @param password Player's password (raw string; not hashed)
+     * @return New player's token (UUID)
+     */
+    public String createPlayer(String username, String password) {
+        Player player = new Player(username, password);
+        playerRepository.save(player);
+        String playerUuid = player.getUuid();
+        return playerUuid;
     }
 
 }
