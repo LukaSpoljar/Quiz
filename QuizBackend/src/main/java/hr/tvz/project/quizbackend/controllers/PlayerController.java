@@ -2,14 +2,10 @@ package hr.tvz.project.quizbackend.controllers;
 
 import hr.tvz.project.quizbackend.entity.Player;
 import hr.tvz.project.quizbackend.service.PlayerService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -42,4 +38,35 @@ public class PlayerController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @PostMapping ("/register/{username}/{password}/{botCheck}")
+    public ResponseEntity<?> createPlayer(@PathVariable String username,@PathVariable String password, @PathVariable boolean botCheck)
+    {
+        if(playerService.validateNewPlayer(username,password, botCheck)){
+            if(playerService.createPlayer(username,password)){
+                return new ResponseEntity<>(201, HttpStatus.CREATED);
+            }
+        }
+        return new ResponseEntity<>(404, HttpStatus.NOT_FOUND);
+    }
+
+    @DeleteMapping("/delete/{username}")
+    public ResponseEntity<?> deletePlayer(@PathVariable String username)
+    {
+        if(playerService.deletePlayer(username)){
+            return new ResponseEntity<>(200, HttpStatus.NO_CONTENT);
+        }
+        else{
+            return new ResponseEntity<>(404, HttpStatus.NOT_IMPLEMENTED);
+        }
+    }
+
+    @PutMapping("/update/{username}/{password}")
+    public ResponseEntity<?> updatePlayer(@PathVariable String username, @PathVariable String password){
+        if(playerService.updatePlayer(username,password)){
+            return new ResponseEntity<>(200, HttpStatus.ACCEPTED);
+        }
+        else{
+            return new ResponseEntity<>(404, HttpStatus.NOT_FOUND);
+        }
+    }
 }
