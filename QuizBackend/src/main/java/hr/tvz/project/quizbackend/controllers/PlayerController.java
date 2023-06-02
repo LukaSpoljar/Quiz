@@ -38,13 +38,15 @@ public class PlayerController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping ("/register/{username}/{password}")
-    public ResponseEntity<?> createPlayer(@PathVariable String username,@PathVariable String password)
+    @PostMapping ("/register/{username}/{password}/{botCheck}")
+    public ResponseEntity<?> createPlayer(@PathVariable String username,@PathVariable String password, @PathVariable boolean botCheck)
     {
-        if(playerService.createPlayer(username,password)){
-        return new ResponseEntity<>(201, HttpStatus.CREATED);
+        if(playerService.validateNewPlayer(username,password, botCheck)){
+            if(playerService.createPlayer(username,password)){
+                return new ResponseEntity<>(201, HttpStatus.CREATED);
+            }
         }
-        else return new ResponseEntity<>(404, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(404, HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("/delete/{username}")
