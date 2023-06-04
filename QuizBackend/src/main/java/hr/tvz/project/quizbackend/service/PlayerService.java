@@ -1,16 +1,14 @@
 package hr.tvz.project.quizbackend.service;
 
-import hr.tvz.project.quizbackend.entity.Player;
+import hr.tvz.project.quizbackend.entity.PlayerDB;
 import hr.tvz.project.quizbackend.repository.PlayerRepository;
 //import org.springframework.jdbc.core.JdbcTemplate;
 //import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Service;
 //import java.sql.ResultSet;
 //import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
-
-import static hr.tvz.project.quizbackend.logic.HelperFunctions.bytesToHex;
-import static hr.tvz.project.quizbackend.logic.HelperFunctions.stringToSha256;
 
 @Service
 public class PlayerService {
@@ -40,15 +38,19 @@ public class PlayerService {
         this.playerRepository = playerRepository;
     }
 
-    public Optional<Player> getPlayer(Long id) {
+    public List<PlayerDB> getAllPlayers() {
+        return playerRepository.findAll();
+    }
+
+    public Optional<PlayerDB> getPlayer(Long id) {
         return playerRepository.findById(id);
     }
 
-    public Optional<Player> getPlayer(String username) {
+    public Optional<PlayerDB> getPlayer(String username) {
         return playerRepository.findByUsername(username);
     }
 
-    public Optional<Player> getPlayerByUuid(String uuid) {
+    public Optional<PlayerDB> getPlayerByUuid(String uuid) {
         return playerRepository.findByUuid(uuid);
     }
 
@@ -59,15 +61,17 @@ public class PlayerService {
      * @param password Player's password (raw string; not hashed)
      * @return New player's token (UUID)
      */
-    public boolean createPlayer(String username, String password) {
-        if(getPlayer(username).isEmpty()){
-            Player player = new Player(username, password);
-            playerRepository.save(player);
+    public Optional<PlayerDB> createPlayer(String username, String password) {
+        if(getPlayer(username).isEmpty()) {
+            PlayerDB playerDB = new PlayerDB(username, password);
+            playerRepository.save(playerDB);
             /*String playerUuid = player.getUuid();
             return playerUuid;*/
-            return true;}
-        else
-            return false;
+            return Optional.of(playerDB);
+        }
+        else {
+            return Optional.empty();
+        }
     }
 
     /**
@@ -90,17 +94,18 @@ public class PlayerService {
      *
      * @param username Player's username
      * @param password Player's password (raw string; not hashed)
-     * @return boolean value of successful execution
+     * @return An optional object. If present, the change was successful.
      */
-    public boolean updatePlayer(String username, String password){
-        if(getPlayer(username).isPresent()){
-            Player player = getPlayer(username).get();
-            player.setHashedPassword(bytesToHex(stringToSha256(password)));
-            playerRepository.save(player);
-            return true;
+    public Optional<PlayerDB> updatePassword(String username, String password){
+        Optional<PlayerDB> playerDB = getPlayer(username);
+        if(playerDB.isPresent()){
+            playerDB.get().setHashedPassword(password);
+            playerRepository.save(playerDB.get());
+            return playerDB;
         }
-        else
-            return false;
+        else {
+            return Optional.empty();
+        }
     }
 
     /**
@@ -119,7 +124,10 @@ public class PlayerService {
         if(botChecker || username.length()<3 ||
                 username.length()>10 || !username.matches("[A-Za-z0-9]+") ||
                 password.length()<8 || password.length()>20 || password.matches(".*\\s.*"))
-        {checker=false;}
+        {
+            checker=false;
+        }
         return checker;
     }
+
 }
