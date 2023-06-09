@@ -1,8 +1,6 @@
 package hr.tvz.project.quizbackend;
 
-import hr.tvz.project.quizbackend.logic.Database;
-import hr.tvz.project.quizbackend.repository.PlayerRepository;
-import hr.tvz.project.quizbackend.repository.QuizRepository;
+import hr.tvz.project.quizbackend.repository.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,20 +16,43 @@ public class QuizBackendApplication {
 	@Bean
 	public CommandLineRunner run(
 			PlayerRepository playerRepository,
-			QuizRepository quizRepository)
+			CategoryRepository categoryRepository,
+			QuizRepository quizRepository,
+			QuestionRepository questionRepository,
+			AnswerRepository answerRepository,
+			ResultRepository resultRepository
+			)
 	{
 		return (args -> {
 
-			System.out.println("Generating players...");
-			Database.initializePlayers(playerRepository);
+			System.out.println("Players...");
 			playerRepository.findAll().stream().forEach(player -> {
-				System.out.println("\t Generated " + player.toString());
+				System.out.println("\t" + player);
 			});
 
-			System.out.println("Generating Quizzes..");
-			Database.initializeQuizes(quizRepository);
+			System.out.println("Categories...");
+			categoryRepository.findAll().stream().forEach(category -> {
+				System.out.println("\t" + category);
+			});
+
+			System.out.println("Quizzes...");
 			quizRepository.findAll().stream().forEach(quiz -> {
-				System.out.println("\t Generated " + quiz.toString());
+				System.out.println("\t" + quiz);
+			});
+
+			System.out.println("Questions...");
+			questionRepository.findAll().stream().forEach(question -> {
+				System.out.println("\t" + question);
+			});
+
+			System.out.println("Answers...");
+			answerRepository.findAll().stream().forEach(answer -> {
+				System.out.println("\t" + answer);
+			});
+
+			System.out.println("Results...");
+			resultRepository.findAll().stream().forEach(result -> {
+				System.out.println("\t" + result);
 			});
 
 		});

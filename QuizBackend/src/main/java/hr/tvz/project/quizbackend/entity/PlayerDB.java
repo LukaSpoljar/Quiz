@@ -21,8 +21,9 @@ public class PlayerDB {
     @Column(nullable=false)
     private String hashedPassword;
 
-    @Column(unique = true, name = "uuid", nullable = false)
-    private String uuid = UUID.randomUUID().toString().toUpperCase();
+    @GeneratedValue
+    @Column(columnDefinition = "uuid", unique = true, updatable = false, nullable = false)
+    private String uuid;
 
     public PlayerDB() {
     }
@@ -79,12 +80,11 @@ public class PlayerDB {
 
     @Override
     public String toString() {
-        return "Player{" +
+        return "PlayerDB{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                ", password='" + hashedPassword + '\'' +
+                ", hashedPassword='" + hashedPassword + '\'' +
                 ", uuid='" + uuid + '\'' +
                 '}';
     }
-
 }
