@@ -11,11 +11,11 @@ import java.util.List;
 
 public class Database {
 
-    public static void InitializePlayers(PlayerRepository playerRepository)
-    {
+    public static void InitializePlayers(PlayerRepository playerRepository) {
         playerRepository.save(new PlayerDB("štef", "štef_lozinka"));
         playerRepository.save(new PlayerDB("luka", "luka_lozinka"));
         playerRepository.save(new PlayerDB("ivan", "ivan_lozinka"));
+    }
 
     public static void initializeQuizes(QuizRepository quizRepository) {
 
@@ -23,6 +23,7 @@ public class Database {
 //        quizQuestions.add(
 //            new QuestionDB("asd")
 //        );
+
 
         QuizDB quiz = new QuizDB("My first quiz!", quizQuestions);
         quizRepository.save(quiz);

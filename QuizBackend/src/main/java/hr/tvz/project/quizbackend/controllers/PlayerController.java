@@ -1,6 +1,7 @@
 package hr.tvz.project.quizbackend.controllers;
 
 import hr.tvz.project.quizbackend.domain.PlayerDTO;
+import hr.tvz.project.quizbackend.domain.RegisterForm;
 import hr.tvz.project.quizbackend.entity.PlayerDB;
 import hr.tvz.project.quizbackend.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,11 +53,11 @@ public class PlayerController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping ("/register/{username}/{password}/{botCheck}")
-    public ResponseEntity<?> createPlayer(@PathVariable String username, @PathVariable String password, @PathVariable boolean botCheck)
+    @PostMapping ("/register")
+    public ResponseEntity<?> createPlayer(@RequestBody RegisterForm newPlayer)
     {
-        if(playerService.validateNewPlayer(username, password, botCheck)) {
-            Optional<PlayerDB> createdPlayer = playerService.createPlayer(username, password);
+        if(playerService.validateNewPlayer(newPlayer.getUsername(), newPlayer.getPassword(), newPlayer.isBotChecker())) {
+            Optional<PlayerDB> createdPlayer = playerService.createPlayer(newPlayer.getUsername(), newPlayer.getPassword());
             if(createdPlayer.isPresent()){
                 PlayerDTO playerDTO = new PlayerDTO(createdPlayer.get());
                 return new ResponseEntity<>(playerDTO, HttpStatus.CREATED);
@@ -76,9 +77,9 @@ public class PlayerController {
         }
     }
 
-    @PutMapping("/{username}/{password}")
-    public ResponseEntity<?> updatePlayer(@PathVariable String username, @PathVariable String password){
-        Optional<PlayerDB> updatedPlayer = playerService.updatePassword(username, password);
+    @PutMapping("/update")
+    public ResponseEntity<?> updatePlayer(@RequestBody RegisterForm newPlayer){
+        Optional<PlayerDB> updatedPlayer = playerService.updatePassword(newPlayer.getUsername(), newPlayer.getPassword());
         if(updatedPlayer.isPresent()){
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         }

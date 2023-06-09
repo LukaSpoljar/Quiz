@@ -23,7 +23,7 @@ public class QuizBackendApplication {
 		return (args -> {
 
 			System.out.println("Generating players...");
-			Database.initializePlayers(playerRepository);
+			Database.InitializePlayers(playerRepository);
 			playerRepository.findAll().stream().forEach(player -> {
 				System.out.println("\t Generated " + player.toString());
 			});
