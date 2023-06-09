@@ -6,22 +6,13 @@ import jakarta.persistence.*;
 import java.util.UUID;
 
 @Entity
-public class Player {
-    @Override
-    public String toString() {
-        return "Player{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + hashedPassword + '\'' +
-                ", uuid='" + uuid + '\'' +
-                '}';
-    }
+public class PlayerDB {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    @Column(nullable=false)
+    @Column(unique = true, nullable=false)
     private String username;
 
     @Column(nullable=false)
@@ -30,14 +21,14 @@ public class Player {
     @Column(unique = true, name = "uuid", nullable = false)
     private String uuid = UUID.randomUUID().toString().toUpperCase();
 
-    public Player() {
+    public PlayerDB() {
     }
 
     public String getUuid() {
         return uuid;
     }
 
-    public Player(String username, String password) {
+    public PlayerDB(String username, String password) {
         this.username = username;
         byte[] hashedPasswordBytes = HelperFunctions.stringToSha256(password);
         this.hashedPassword = HelperFunctions.bytesToHex(hashedPasswordBytes);
@@ -71,6 +62,7 @@ public class Player {
 
     /**
      * Check if input password matches the one in player.
+     * Useful in login checking.
      *
      * @param password A raw password string (not hashed).
      * @return True if password hash matches the one in Player
@@ -81,6 +73,16 @@ public class Player {
 
         boolean passwordsMatch = this.getHashedPassword().equals(hashedPassword);
         return passwordsMatch;
+    }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + hashedPassword + '\'' +
+                ", uuid='" + uuid + '\'' +
+                '}';
     }
 
 }
