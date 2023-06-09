@@ -4,7 +4,7 @@
 -- { username: 'štef', password: 'štef_lozinka' }
 -- { username: 'luka', password: 'luka_lozinka' }
 -- { username: 'ivan', password: 'ivan_lozinka' }
-INSERT INTO playerdb (id, username, hashed_password, uuid) values
+INSERT INTO player (id, username, hashed_password, uuid) values
     (1, 'štef', '5ba723b2aa6416201cfdc5a207520a3fe4b625db25492cfa01d0d2bb97155b32', uuid()),
     (2, 'luka', '19f3f5ab1629cae390a8b959370143f74961c8fbd89ce2a7edabbbd141210166', uuid()),
     (3, 'ivan', '2d2a4c70577a75f07e3201e183e4db1fb176693597b5b804fc74acb78c31d9f9', uuid());
