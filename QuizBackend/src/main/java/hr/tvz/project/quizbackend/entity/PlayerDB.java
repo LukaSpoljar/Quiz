@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import java.util.UUID;
 
 @Entity
+@Table(name="player")
 public class PlayerDB {
 
     @Id

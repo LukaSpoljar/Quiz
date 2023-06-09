@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
  * Quiz question
  */
@@ -18,9 +20,12 @@ public class QuestionDB {
     @Column(nullable=false)
     private String text;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="quiz_id", nullable=false)
     private QuizDB quiz;
+
+    @OneToMany(mappedBy="question", fetch = FetchType.EAGER)
+    private List<AnswerDB> answers;
 
     public QuestionDB() {
     }
@@ -53,4 +58,15 @@ public class QuestionDB {
     public void setQuiz(QuizDB quiz) {
         this.quiz = quiz;
     }
+
+    @Override
+    public String toString() {
+        return "QuestionDB{" +
+                "id=" + id +
+                ", text='" + text + '\'' +
+                ", quiz_id='" + quiz.getId() + '\'' +
+                ", answers=" + answers.size() +
+                '}';
+    }
+
 }

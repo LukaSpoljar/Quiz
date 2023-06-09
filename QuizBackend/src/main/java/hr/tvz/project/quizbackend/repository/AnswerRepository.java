@@ -1,12 +1,13 @@
 package hr.tvz.project.quizbackend.repository;
 
+import hr.tvz.project.quizbackend.entity.AnswerDB;
 import hr.tvz.project.quizbackend.entity.QuestionDB;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface QuestionRepository extends JpaRepository<QuestionDB, Long> {
+public interface AnswerRepository extends JpaRepository<AnswerDB, Long> {
 
-    Optional<QuestionDB> findById(Long id);
+    Optional<AnswerDB> findById(Long id);
 
 }
