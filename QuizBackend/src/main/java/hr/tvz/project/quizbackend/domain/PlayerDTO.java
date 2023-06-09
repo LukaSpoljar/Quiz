@@ -6,7 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Player class used in client-server communication
+ * A class used in communication with clients.
+ * It hides vulnerable data such as password.
+ * It may be initialized using PlayerDB class.
  */
 @Data
 @NoArgsConstructor
@@ -15,6 +17,7 @@ public class PlayerDTO {
 
     private String username;
     private String uuid;
+    // Password is hidden
 
     public PlayerDTO(PlayerDB playerDB) {
         this.username = playerDB.getUsername();

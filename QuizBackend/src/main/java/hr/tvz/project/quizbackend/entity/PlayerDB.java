@@ -5,9 +5,6 @@ import jakarta.persistence.*;
 
 import java.util.UUID;
 
-/**
- * Player class used in H2 database
- */
 @Entity
 public class PlayerDB {
 
@@ -15,15 +12,14 @@ public class PlayerDB {
     @GeneratedValue
     private Long id;
 
-    @Column(nullable=false)
+    @Column(unique = true, nullable=false)
     private String username;
 
     @Column(nullable=false)
     private String hashedPassword;
 
-    @GeneratedValue
-    @Column(columnDefinition = "uuid", unique = true, updatable = false, nullable = false)
-    private String uuid;
+    @Column(unique = true, name = "uuid", nullable = false)
+    private String uuid = UUID.randomUUID().toString().toUpperCase();
 
     public PlayerDB() {
     }
@@ -66,6 +62,7 @@ public class PlayerDB {
 
     /**
      * Check if input password matches the one in player.
+     * Useful in login checking.
      *
      * @param password A raw password string (not hashed).
      * @return True if password hash matches the one in Player
@@ -80,11 +77,12 @@ public class PlayerDB {
 
     @Override
     public String toString() {
-        return "PlayerDB{" +
+        return "Player{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                ", hashedPassword='" + hashedPassword + '\'' +
+                ", password='" + hashedPassword + '\'' +
                 ", uuid='" + uuid + '\'' +
                 '}';
     }
+
 }
