@@ -1,1 +1,44 @@
-<p>register works!</p>
+<div id="card_wrapper">
+
+  <mat-card class="example-card">
+
+    <mat-card-header>
+      <mat-card-title>Sign Up</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form class="example-form" [formGroup]="registerUserForm">
+
+        <!-- Username -->
+        <div>
+          <label><strong>Username</strong></label>
+          <input class="form-control form-control-user" type="text" formControlName="username">
+          <span></span>
+        </div>
+
+        <!-- Password -->
+        <div>
+          <label><strong>Password</strong></label>
+          <input class="form-control form-control-user" type="text" formControlName="password">
+          <span></span>
+        </div>
+
+        <!-- Confirm password -->
+        <div>
+          <label><strong>Re-enter password</strong></label>
+          <input class="form-control form-control-user" type="password" formControlName="confirmPassword">
+          <span></span>
+        </div>
+
+
+      </form>
+    </mat-card-content>
+    <mat-card-actions>
+      <div>
+        <button mat-button class="my-button-theme" (click)="onSubmit()">Sign up</button>
+        <button mat-button class="my-button-theme" (click)="clientRoutes.navigateToLogin()">Log in</button>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
