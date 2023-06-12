@@ -5,6 +5,13 @@ import {AppComponent} from './app.component';
 import {LoginComponent} from './AuthPages/Login/login.component';
 import {RegisterComponent} from './AuthPages/Register/register.component';
 import {MainModule} from "./Main/main.module";
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {ReactiveFormsModule} from "@angular/forms";
+import {MatCardModule} from "@angular/material/card";
+import {MatButtonModule} from "@angular/material/button";
+import {MatInputModule} from "@angular/material/input";
+import {MatIconModule} from "@angular/material/icon";
+import {HttpClientModule} from "@angular/common/http";
 
 
 @NgModule({
@@ -16,7 +23,14 @@ import {MainModule} from "./Main/main.module";
   imports: [
     BrowserModule,
     AppRoutingModule,
-    MainModule
+    ReactiveFormsModule,
+    HttpClientModule,
+    MainModule,
+    BrowserAnimationsModule,
+    MatCardModule,
+    MatButtonModule,
+    MatInputModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]
