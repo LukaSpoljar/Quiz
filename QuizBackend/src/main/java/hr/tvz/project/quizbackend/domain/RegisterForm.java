@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 public class RegisterForm {
     private String username;
     private String password;
-    private boolean botChecker;
+    private String email;
 }

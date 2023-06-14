@@ -8,5 +8,8 @@ import java.util.Optional;
 public interface QuizRepository extends JpaRepository<QuizDB, Long> {
 
     Optional<QuizDB> findById(Long id);
+    Optional<QuizDB> findByNameContainsOrAuthorContains(String name, String author);
+    boolean deleteByName(String name);
+    Optional<QuizDB> findAllByNameOrderByName(String name);
 
 }

@@ -3,6 +3,7 @@ package hr.tvz.project.quizbackend.controllers;
 import hr.tvz.project.quizbackend.domain.PlayerDTO;
 import hr.tvz.project.quizbackend.domain.RegisterForm;
 import hr.tvz.project.quizbackend.entity.PlayerDB;
+import hr.tvz.project.quizbackend.entity.PlayerResponse;
 import hr.tvz.project.quizbackend.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -56,7 +57,7 @@ public class PlayerController {
     @PostMapping ("/register")
     public ResponseEntity<?> createPlayer(@RequestBody RegisterForm newPlayer)
     {
-        if(playerService.validateNewPlayer(newPlayer.getUsername(), newPlayer.getPassword(), newPlayer.isBotChecker())) {
+        if(playerService.validateNewPlayer(newPlayer.getUsername(), newPlayer.getPassword(), newPlayer.getEmail())==PlayerResponse.OK) {
             Optional<PlayerDB> createdPlayer = playerService.createPlayer(newPlayer.getUsername(), newPlayer.getPassword());
             if(createdPlayer.isPresent()){
                 PlayerDTO playerDTO = new PlayerDTO(createdPlayer.get());
@@ -84,5 +85,16 @@ public class PlayerController {
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> loginPlayer(@RequestBody RegisterForm playerInfo){
+        PlayerDB player = new PlayerDB(playerInfo.getUsername(), playerInfo.getPassword());
+        if(playerService.validateNewPlayer(playerInfo.getUsername(), playerInfo.getPassword(), playerInfo.getEmail())== PlayerResponse.OK
+                && playerService.login(player.getUsername(), player.getHashedPassword()).isPresent()) {
+            return new ResponseEntity<>(player.getUuid(), HttpStatus.OK);
+        }
+        else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

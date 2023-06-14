@@ -15,7 +15,7 @@ public class QuizDB {
     @GeneratedValue
     private Long id;
 
-    @Column
+    @Column (unique = true)
     private String name;
 
     @ManyToOne(fetch = FetchType.EAGER)
