@@ -11,30 +11,41 @@
         <!-- Username -->
         <mat-form-field>
           <mat-label>Username</mat-label>
-          <input type="text" formControlName="username" matInput (keyup)="usernameChange($event)">
+          <input type="text" formControlName="username" matInput autocomplete="off">
           <mat-error>{{errorMessages[0]}}</mat-error>
         </mat-form-field>
 
         <!-- Password -->
         <mat-form-field>
           <mat-label>Password</mat-label>
-          <input type="text" formControlName="password" matInput (keyup)="passwordChange($event)">
+          <input [type]="hidePassword ? 'password' : 'text'" formControlName="password" matInput autocomplete="off">
+          <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+            <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
           <mat-error>{{errorMessages[1]}}</mat-error>
+
         </mat-form-field>
 
         <!-- Confirm password -->
         <mat-form-field>
           <mat-label>Re-enter password</mat-label>
-          <input type="password" formControlName="confirmPassword" matInput [errorStateMatcher]="confirmPasswordMatcher" (keyup)="confirmPasswordChange($event)">
+          <input [type]="hideConfirmPassword ? 'password' : 'text'" formControlName="confirmPassword" matInput autocomplete="off">
+          <button mat-icon-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideConfirmPassword">
+            <mat-icon>{{hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
           <mat-error>{{errorMessages[2]}}</mat-error>
         </mat-form-field>
+
+        <!-- If not empty than it's bot -->
+        <input type="hidden" name="email" value=""/>
 
       </form>
     </mat-card-content>
 
     <mat-card-actions>
       <div>
-        <button mat-button class="my-button-theme" (click)="onSubmit()">Sign up</button>
+        <button mat-button class="my-button-theme" (click)="onSubmit()" >Sign up
+        </button>
         <button mat-button class="my-button-theme" (click)="clientRoutes.navigateToLogin()">Log in</button>
       </div>
     </mat-card-actions>

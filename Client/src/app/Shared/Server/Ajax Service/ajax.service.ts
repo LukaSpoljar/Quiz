@@ -13,11 +13,11 @@ export class AjaxService {
 
   constructor(private _http:HttpClient) {
     this.urlPrefix = environment.API_URL;
-    this.authPrefix = environment.API_URL + '/api/authenticate';
+    this.authPrefix = environment.API_URL + '';
   }
 
   /***** Registration *****/
   registerUser(credentials: {}):Observable<object> {
-    return this._http.post(this.urlPrefix + '/user', credentials);
+    return this._http.post(this.urlPrefix + '/player/register', credentials);
   }
 }

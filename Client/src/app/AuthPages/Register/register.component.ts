@@ -1,164 +1,122 @@
-import {Component} from '@angular/core';
-import {
-  AbstractControl, FormArray,
-  FormControl,
-  FormGroup, FormGroupDirective, NgForm,
-  ValidatorFn,
-  Validators
-} from "@angular/forms";
+import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {ClientRoutes} from "../../Shared/Routes/ClientRoutes";
 import {DataService} from "../../Shared/Server/Data Service/data.service";
-import {ErrorStateMatcher} from "@angular/material/core";
+import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
 
   readonly clientRoutes: ClientRoutes;
 
   registerUserForm: FormGroup;
-  errorMessages: string[] = ['', '', ''];
-  confirmPasswordMatcher: ConfirmPasswordMatcher;
+  errorMessages: string[] = ['Required', 'Required', 'Required'];
 
-  private usernameControl: AbstractControl;
-  private passwordControl: AbstractControl;
-  private confirmPasswordControl: AbstractControl;
+  hidePassword: boolean = true;
+  hideConfirmPassword: boolean = true;
+
+  readonly usernameControl: AbstractControl;
+  readonly passwordControl: AbstractControl;
+  readonly confirmPasswordControl: AbstractControl;
 
   constructor(private _router: Router, private _dataService: DataService) {
 
     this.clientRoutes = new ClientRoutes(this._router);
 
     this.registerUserForm = new FormGroup({
-      username: new FormControl(null, this.createValidators(3, 10, /^[A-Za-z0-9_ #@.]*$/)),
-      password: new FormControl(null, this.createValidators(8, 20, /^[A-Za-z0-9_ #@.]*$/)),
-      confirmPassword: new FormControl(null)
+      username: new FormControl('', this.createValidators({minLength: 3, maxLength: 10, regex: /^[A-Za-z0-9_]*$/})),
+      password: new FormControl('', this.createValidators({minLength: 8, maxLength: 20, regex: /^[^ ]*$/, hasPasswordValidation: true})),
+      confirmPassword: new FormControl('', this.createValidators())
     });
-
-    this.confirmPasswordMatcher = new ConfirmPasswordMatcher();
 
     this.usernameControl = this.registerUserForm.controls['username'];
     this.passwordControl = this.registerUserForm.controls['password'];
     this.confirmPasswordControl = this.registerUserForm.controls['confirmPassword'];
   }
 
-
-  usernameChange(event: any): void {
-    let message: string = '';
-
-    if (this.usernameControl.hasError('pattern')) {
-      message = "Unallowed letters";
-
-    } else if (this.usernameControl.hasError('minlength')) {
-
-      let errorObject = this.usernameControl.getError('minlength');
-      message = `Username must be at least ${errorObject.requiredLength} long`;
-
-    } else if (this.usernameControl.hasError('maxlength')) {
-
-      let errorObject = this.usernameControl.getError('maxlength');
-      message = `Username must be max ${errorObject.requiredLength} long`;
-    }
-    this.errorMessages[0] = message;
+  ngOnInit(): void {
+    this.usernameControl.valueChanges.subscribe((value: any): void => { this.errorMessages[0] = this.printErrorMessage('Username', this.usernameControl); });
+    this.passwordControl.valueChanges.subscribe((value: any): void => {
+      this.refreshConfirmPasswordValidators();
+      this.errorMessages[1] = this.printErrorMessage('Password', this.passwordControl);
+    });
+    this.confirmPasswordControl.valueChanges.subscribe((value: any): void => {
+      this.refreshConfirmPasswordValidators();
+      this.errorMessages[2] = this.printErrorMessage('ConfirmPassword', this.confirmPasswordControl);
+    });
   }
-
-  passwordChange(event: any): void {
-
-    let message: string = '';
-
-    if (this.passwordControl.value !== this.confirmPasswordControl.value && this.passwordControl.valid) {
-      this.errorMessages[2] = "Passwords must be same";
-    } else {
-      this.errorMessages[2] = message
-    }
-
-    if (this.passwordControl.hasError('pattern')) {
-      message = "Unallowed letters";
-
-    } else if (this.passwordControl.hasError('minlength')) {
-
-      let errorObject = this.passwordControl.getError('minlength');
-      let requiredLength: number = 0;
-
-      if (errorObject) {
-        requiredLength = errorObject.requiredLength;
-      }
-      message = `Password must be at least ${requiredLength} long`;
-
-    } else if (this.passwordControl.hasError('maxlength')) {
-
-      let errorObject = this.passwordControl.getError('maxlength');
-      let requiredLength: number = 100;
-
-      if (errorObject) {
-        requiredLength = errorObject.requiredLength;
-      }
-      message = `Password must be max ${requiredLength} long`;
-    }
-
-    this.errorMessages[1] = message;
-  }
-
-  confirmPasswordChange(event: any): void {
-    let message: string = '';
-    if (this.confirmPasswordControl.value !== this.passwordControl.value) {
-      message = "Passwords must be same";
-    }
-    this.errorMessages[2] = message;
-  }
-
 
   onSubmit(): void {
+
+    this.refreshConfirmPasswordValidators();
+    this.registerUserForm.markAllAsTouched();
+
     if (this.registerUserForm.valid) {
-      this._dataService.registerUser(this.registerUserForm.getRawValue());
+      let formData = this.registerUserForm.getRawValue();
+
+      formData.email = document.getElementsByName('email')[0];
+      formData.email = formData.email.value;
+
+      this._dataService.registerUser(formData);
     }
   }
 
-  private createValidators(minLength?: number, maxLength?: number, regex?: RegExp): ValidatorFn[] {
+  private createValidators(properties: { minLength?: number, maxLength?: number, regex?: RegExp, hasPasswordValidation?: boolean, hasPasswordMatching?: { word: string } } = {}): ValidatorFn[] {
 
-    let array: any[] = [];
+    let array: ValidatorFn[] = [];
 
     array.push(Validators.required);
 
-    if (minLength && minLength > 0) {
-      array.push(Validators.minLength(minLength));
-    }
-
-    if (maxLength && maxLength > 0) {
-      array.push(Validators.maxLength(maxLength));
-    }
-
-    if (regex) {
-      array.push(Validators.pattern(regex));
-    }
+    if (properties.minLength !== undefined && properties.minLength > 0) { array.push(Validators.minLength(properties.minLength)); }
+    if (properties.maxLength !== undefined && properties.maxLength > 0) { array.push(Validators.maxLength(properties.maxLength)); }
+    if (properties.regex) { array.push(Validators.pattern(properties.regex)); }
+    if (properties.hasPasswordValidation) { array.push(createPasswordValidator()); }
+    if (properties.hasPasswordMatching?.word || properties.hasPasswordMatching?.word == '') { array.push(createPasswordsMatcherValidator()); }
 
     return array;
-  }
-}
 
+    function createPasswordValidator(): ValidatorFn {
+      return (control: AbstractControl): ValidationErrors | null => {
+        if (!control.value) { return null; }
 
-export class ConfirmPasswordMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+        let hasUpperCase: boolean = /[A-Z]/.test(control?.value);
+        let hasLowerCase: boolean = /[a-z]/.test(control?.value);
+        let hasNumber: boolean = /[0-9]/.test(control?.value);
+        let hasSpecialChar: boolean = /[^A-Za-z0-9]/.test(control?.value);
 
-    let parent: FormGroup | FormArray | null | undefined = control?.parent;
-
-    // @ts-ignore
-    let passwordControl: AbstractControl = parent?.controls['password'];
-
-    if (control?.value !== passwordControl.value) {
-      control?.setErrors({
-        equal: {
-          value: false,
-          confirmPassword: control.value,
-          password: passwordControl.value
-        }
-      });
-      return true;
+        let passwordValid: boolean = hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar;
+        return passwordValid ? null : { missingConditions: true };
+      }
     }
 
-    return false;
+    function createPasswordsMatcherValidator(): ValidatorFn {
+      return (control: AbstractControl): ValidationErrors | null => {
+        if (!control.value) { return null; }
+        return control.value === properties.hasPasswordMatching?.word ? null : { passwordsNotMatching: true };
+      }
+    }
+  }
+
+  private printErrorMessage(formControlName: string, formControl: AbstractControl): string {
+    let message: string = '';
+    if (formControl.hasError('pattern')) {
+      if (formControlName === 'Username') { message = "Only letters, numbers and underscores"; }
+      else if (formControlName === 'Password') { message = "Space not allowed"; }
+    } else if (formControl.hasError('required')) { message = "Required"; }
+    else if (formControl.hasError('minlength')) { message = `${formControlName} must be at least ${formControl.getError('minlength').requiredLength} long`; }
+    else if (formControl.hasError('maxlength')) { message = `${formControlName} must be max ${formControl.getError('maxlength').requiredLength} long`; }
+    else if (formControl.hasError('missingConditions')) { message = `${formControlName} must contain every char type`; }
+    else if (formControl.hasError('passwordsNotMatching')) { message = `Passwords don't match`; }
+    return message;
+  }
+
+  private refreshConfirmPasswordValidators():void {
+    this.confirmPasswordControl.clearValidators();
+    this.confirmPasswordControl.addValidators(this.createValidators({minLength: 8, maxLength: 20, regex: /^[^ ]*$/, hasPasswordValidation: true, hasPasswordMatching: {word: this.passwordControl.value}}));
+    this.confirmPasswordControl.updateValueAndValidity({emitEvent: false});
   }
 }
