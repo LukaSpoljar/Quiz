@@ -1,8 +1,11 @@
 package hr.tvz.project.quizbackend.service;
 
 import hr.tvz.project.quizbackend.entity.PlayerDB;
+import hr.tvz.project.quizbackend.entity.PlayerResponse;
 import hr.tvz.project.quizbackend.repository.PlayerRepository;
 import org.springframework.stereotype.Service;
+
+import javax.lang.model.type.NullType;
 import java.util.List;
 import java.util.Optional;
 
@@ -89,15 +92,21 @@ public class PlayerService {
      * @param botChecker Hidden registration form field for bot checking
      * @return boolean value of successful execution
      */
-    public boolean validateNewPlayer(String username, String password, boolean botChecker){
-        boolean checker=true;
-        if(botChecker || username.length()<3 ||
-                username.length()>10 || !username.matches("[A-Za-z0-9]+") ||
-                password.length()<8 || password.length()>20 || password.matches(".*\\s.*"))
-        {
-            checker=false;
+    public PlayerResponse validateNewPlayer(String username, String password, String botChecker){
+        if(!(botChecker== null)){
+            return PlayerResponse.BOT_DETECTED;
+        } else if (username.length()<3 ||
+                username.length()>10 || !username.matches("[A-Za-z0-9]+")) {
+            return PlayerResponse.USERNAME_INVALID;
+        } else if (password.length()<8 || password.length()>20 || password.matches(".*\\s.*")) {
+            return PlayerResponse.PASSWORD_INVALID;
         }
-        return checker;
+        else
+            return PlayerResponse.OK;
+    }
+    public Optional<PlayerDB> login(String username, String hashedPassword){
+        Optional<PlayerDB> player = playerRepository.findByUsernameAndHashedPassword(username, hashedPassword);
+        return player;
     }
 
 }

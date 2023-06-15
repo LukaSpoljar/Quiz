@@ -7,10 +7,11 @@ import java.util.UUID;
 
 @Entity
 @Table(name="player")
+@SequenceGenerator(name="player_gen", sequenceName = "player_gen", initialValue=4)
 public class PlayerDB {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.AUTO, generator = "player_gen")
     private Long id;
 
     @Column(unique = true, nullable=false)

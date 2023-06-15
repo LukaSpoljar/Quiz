@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface PlayerRepository extends JpaRepository<PlayerDB, Long> {
 
     Optional<PlayerDB> findByUsername(String username);
-
     Optional<PlayerDB> findByUuid(String uuid);
+    Optional<PlayerDB> findByUsernameAndHashedPassword(String username, String hPassword);
 
 }
