@@ -91,7 +91,7 @@ public class PlayerController {
     public ResponseEntity<?> loginPlayer(@RequestBody RegisterForm playerInfo){
         PlayerDB player = new PlayerDB(playerInfo.getUsername(), playerInfo.getPassword());
         if(playerService.validateNewPlayer(playerInfo.getUsername(), playerInfo.getPassword(), playerInfo.getEmail())== PlayerResponse.OK
-                && playerService.login(player.getUsername(), player.getHashedPassword()).isPresent()) {
+                && playerService.login(player.getUsername(), player.getPassword()).isPresent()) {
             return new ResponseEntity<>(player.getUuid(), HttpStatus.OK);
         }
         else

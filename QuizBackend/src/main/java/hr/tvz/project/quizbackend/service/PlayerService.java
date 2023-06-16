@@ -5,7 +5,6 @@ import hr.tvz.project.quizbackend.entity.PlayerResponse;
 import hr.tvz.project.quizbackend.repository.PlayerRepository;
 import org.springframework.stereotype.Service;
 
-import javax.lang.model.type.NullType;
 import java.util.List;
 import java.util.Optional;
 
@@ -72,7 +71,7 @@ public class PlayerService {
     public Optional<PlayerDB> updatePassword(String username, String password){
         Optional<PlayerDB> playerDB = getPlayer(username);
         if(playerDB.isPresent()){
-            playerDB.get().setHashedPassword(password);
+            playerDB.get().setPassword(password);
             playerRepository.save(playerDB.get());
             return playerDB;
         }
