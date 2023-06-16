@@ -7,7 +7,7 @@ import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+  styleUrls: ['../../Shared/Style/AuthPages.scss', './register.component.scss']
 })
 export class RegisterComponent implements OnInit {
 
