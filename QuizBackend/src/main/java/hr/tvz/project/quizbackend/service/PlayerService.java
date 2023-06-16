@@ -93,7 +93,7 @@ public class PlayerService {
      * @return boolean value of successful execution
      */
     public PlayerResponse validateNewPlayer(String username, String password, String botChecker){
-        if(!(botChecker== null)){
+        if(botChecker.isEmpty() == false){
             return PlayerResponse.BOT_DETECTED;
         } else if (username.length()<3 ||
                 username.length()>10 || !username.matches("[A-Za-z0-9]+")) {
