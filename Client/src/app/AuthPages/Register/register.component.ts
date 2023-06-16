@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Router} from "@angular/router";
 import {ClientRoutes} from "../../Shared/Routes/ClientRoutes";
 import {DataService} from "../../Shared/Server/Data Service/data.service";
@@ -14,14 +14,17 @@ export class RegisterComponent implements OnInit {
   readonly clientRoutes: ClientRoutes;
 
   registerUserForm: FormGroup;
-  errorMessages: string[] = ['Required', 'Required', 'Required'];
+  errorMessages: string[] = ['Required', 'Required', 'Required', 'Required'];
 
   hidePassword: boolean = true;
   hideConfirmPassword: boolean = true;
 
   readonly usernameControl: AbstractControl;
+  readonly emailControl: AbstractControl;
   readonly passwordControl: AbstractControl;
   readonly confirmPasswordControl: AbstractControl;
+
+  @ViewChild('emptyOne') botEmailInput : ElementRef | null = null;
 
   constructor(private _router: Router, private _dataService: DataService) {
 
@@ -29,26 +32,30 @@ export class RegisterComponent implements OnInit {
 
     this.registerUserForm = new FormGroup({
       username: new FormControl('', this.createValidators({minLength: 3, maxLength: 10, regex: /^[A-Za-z0-9_]*$/})),
+      userEmail:  new FormControl('', this.createValidators({email: true})),
       password: new FormControl('', this.createValidators({minLength: 8, maxLength: 20, regex: /^[^ ]*$/, hasPasswordValidation: true})),
       confirmPassword: new FormControl('', this.createValidators())
     });
 
     this.usernameControl = this.registerUserForm.controls['username'];
+    this.emailControl = this.registerUserForm.controls['userEmail'];
     this.passwordControl = this.registerUserForm.controls['password'];
     this.confirmPasswordControl = this.registerUserForm.controls['confirmPassword'];
   }
 
   ngOnInit(): void {
     this.usernameControl.valueChanges.subscribe((value: any): void => { this.errorMessages[0] = this.printErrorMessage('Username', this.usernameControl); });
+    this.emailControl.valueChanges.subscribe((value:any): void => { this.errorMessages[1] = this.printErrorMessage('Email', this.emailControl);});
     this.passwordControl.valueChanges.subscribe((value: any): void => {
       this.refreshConfirmPasswordValidators();
-      this.errorMessages[1] = this.printErrorMessage('Password', this.passwordControl);
+      this.errorMessages[2] = this.printErrorMessage('Password', this.passwordControl);
     });
     this.confirmPasswordControl.valueChanges.subscribe((value: any): void => {
       this.refreshConfirmPasswordValidators();
-      this.errorMessages[2] = this.printErrorMessage('ConfirmPassword', this.confirmPasswordControl);
+      this.errorMessages[3] = this.printErrorMessage('Password confirmation', this.confirmPasswordControl);
     });
   }
+
 
   onSubmit(): void {
 
@@ -57,20 +64,19 @@ export class RegisterComponent implements OnInit {
 
     if (this.registerUserForm.valid) {
       let formData = this.registerUserForm.getRawValue();
-
-      formData.email = document.getElementsByName('email')[0];
-      formData.email = formData.email.value;
+      formData.email = this.botEmailInput?.nativeElement.value;
 
       this._dataService.registerUser(formData);
     }
   }
 
-  private createValidators(properties: { minLength?: number, maxLength?: number, regex?: RegExp, hasPasswordValidation?: boolean, hasPasswordMatching?: { word: string } } = {}): ValidatorFn[] {
+  private createValidators(properties: { minLength?: number, maxLength?: number, regex?: RegExp, hasPasswordValidation?: boolean, hasPasswordMatching?: { word: string }, email?: boolean} = {}): ValidatorFn[] {
 
     let array: ValidatorFn[] = [];
 
     array.push(Validators.required);
 
+    if (properties.email){ array.push(Validators.email) }
     if (properties.minLength !== undefined && properties.minLength > 0) { array.push(Validators.minLength(properties.minLength)); }
     if (properties.maxLength !== undefined && properties.maxLength > 0) { array.push(Validators.maxLength(properties.maxLength)); }
     if (properties.regex) { array.push(Validators.pattern(properties.regex)); }
@@ -106,7 +112,9 @@ export class RegisterComponent implements OnInit {
     if (formControl.hasError('pattern')) {
       if (formControlName === 'Username') { message = "Only letters, numbers and underscores"; }
       else if (formControlName === 'Password') { message = "Space not allowed"; }
-    } else if (formControl.hasError('required')) { message = "Required"; }
+    }
+    else if (formControl.hasError('email')) {message = "Wrong email"}
+    else if (formControl.hasError('required')) { message = "Required"; }
     else if (formControl.hasError('minlength')) { message = `${formControlName} must be at least ${formControl.getError('minlength').requiredLength} long`; }
     else if (formControl.hasError('maxlength')) { message = `${formControlName} must be max ${formControl.getError('maxlength').requiredLength} long`; }
     else if (formControl.hasError('missingConditions')) { message = `${formControlName} must contain every char type`; }

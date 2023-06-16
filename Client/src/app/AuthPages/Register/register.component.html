@@ -11,8 +11,15 @@
         <!-- Username -->
         <mat-form-field>
           <mat-label>Username</mat-label>
-          <input type="text" formControlName="username" matInput autocomplete="off">
+          <input type="text" formControlName="username" matInput autocomplete="off" autofocus>
           <mat-error>{{errorMessages[0]}}</mat-error>
+        </mat-form-field>
+
+        <!-- Email -->
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input type="email" formControlName="userEmail" matInput autocomplete="off">
+          <mat-error>{{errorMessages[1]}}</mat-error>
         </mat-form-field>
 
         <!-- Password -->
@@ -22,7 +29,7 @@
           <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
             <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
           </button>
-          <mat-error>{{errorMessages[1]}}</mat-error>
+          <mat-error>{{errorMessages[2]}}</mat-error>
 
         </mat-form-field>
 
@@ -33,11 +40,11 @@
           <button mat-icon-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideConfirmPassword">
             <mat-icon>{{hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
           </button>
-          <mat-error>{{errorMessages[2]}}</mat-error>
+          <mat-error>{{errorMessages[3]}}</mat-error>
         </mat-form-field>
 
-        <!-- If not empty than it's bot -->
-        <input type="hidden" name="email" value=""/>
+        <!-- user email -->
+        <input type="hidden" name="email" value="" #emptyOne/>
 
       </form>
     </mat-card-content>

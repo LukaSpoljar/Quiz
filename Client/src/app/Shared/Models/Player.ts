@@ -1,9 +1,11 @@
 export class Player {
+  id: string;
   username:string;
-  password: string;
+  uuid: string;
 
-  constructor(private _username: string, private _password: string) {
+  constructor(private _id: string, private _username: string, private _uuid: string) {
+    this.id = _id;
     this.username = _username;
-    this.password = _password;
+    this.uuid = _uuid;
   }
 }
