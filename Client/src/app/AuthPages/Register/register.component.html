@@ -1,1 +1,54 @@
-<p>register works!</p>
+<div id="card_wrapper">
+  <mat-card>
+
+    <mat-card-header>
+      <mat-card-title>Sign Up</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="registerUserForm">
+
+        <!-- Username -->
+        <mat-form-field>
+          <mat-label>Username</mat-label>
+          <input type="text" formControlName="username" matInput autocomplete="off" autofocus>
+          <mat-error>{{errorMessages[0]}}</mat-error>
+        </mat-form-field>
+
+        <!-- Password -->
+        <mat-form-field>
+          <mat-label>Password</mat-label>
+          <input [type]="hidePassword ? 'password' : 'text'" formControlName="password" matInput autocomplete="off">
+          <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+            <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error>{{errorMessages[2]}}</mat-error>
+
+        </mat-form-field>
+
+        <!-- Confirm password -->
+        <mat-form-field>
+          <mat-label>Re-enter password</mat-label>
+          <input [type]="hideConfirmPassword ? 'password' : 'text'" formControlName="confirmPassword" matInput autocomplete="off">
+          <button mat-icon-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideConfirmPassword">
+            <mat-icon>{{hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error>{{errorMessages[3]}}</mat-error>
+        </mat-form-field>
+
+        <!-- user email -->
+        <input type="hidden" name="email" value="" #emptyOne/>
+
+      </form>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <div>
+        <button mat-button class="my-button-theme" (click)="onSubmit()" >Sign up</button>
+        <button mat-button class="my-button-theme" (click)="clientRoutes.navigateToLogin()">Already have an account ?</button>
+      </div>
+    </mat-card-actions>
+
+  </mat-card>
+</div>
+
