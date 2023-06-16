@@ -1,0 +1,3 @@
+
+# Example GET
+GET http://localhost:8080/player/test
