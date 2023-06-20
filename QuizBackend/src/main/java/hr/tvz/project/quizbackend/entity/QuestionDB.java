@@ -1,5 +1,7 @@
 package hr.tvz.project.quizbackend.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -20,10 +22,12 @@ public class QuestionDB {
     @Column(nullable=false)
     private String text;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="quiz_id", nullable=false)
     private QuizDB quiz;
 
+    @JsonManagedReference
     @OneToMany(mappedBy="question", fetch = FetchType.EAGER)
     private List<AnswerDB> answers;
 

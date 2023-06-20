@@ -1,5 +1,6 @@
 package hr.tvz.project.quizbackend.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class QuizDB {
     @Column(columnDefinition = "uuid", unique = true, updatable = false, nullable = false)
     private String uuid;
 
+    @JsonManagedReference
     @OneToMany(mappedBy="quiz", fetch = FetchType.EAGER)
     private List<QuestionDB> questions;
 
