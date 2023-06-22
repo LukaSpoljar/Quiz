@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {ClientRoutes} from "../../../Shared/Routes/ClientRoutes";
+import {ClientRoutes} from "../../../../Shared/Routes/ClientRoutes";
 
 @Component({
   selector: 'app-solve-quiz',

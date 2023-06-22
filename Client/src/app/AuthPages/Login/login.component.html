@@ -6,7 +6,7 @@
     </mat-card-header>
 
     <mat-card-content>
-      <form [formGroup]="loginForm">
+      <form [formGroup]="loginForm" (focusin)="whenFormFocusIn($event)">
 
         <!-- Username -->
         <mat-form-field>
@@ -26,13 +26,14 @@
         </mat-form-field>
 
         <!-- user email -->
-        <input type="hidden" name="email" value="" #emptyOne/>
+        <input type="hidden" name="email" value="" formControlName="email"/>
 
       </form>
     </mat-card-content>
 
     <mat-card-actions>
       <div>
+        <mat-error>{{errorMessages[2]}}</mat-error>
         <button mat-button class="my-button-theme" (click)="onSubmit()" >Log in</button>
         <button mat-button class="my-button-theme" (click)="clientRoutes.navigateToRegister()">Don't have an account ?</button>
       </div>
