@@ -1,0 +1,17 @@
+mat-button-toggle-group {
+  flex-direction: row;
+  justify-content: space-between;
+
+  div {
+    display: flex;
+    justify-content: start;
+  }
+}
+
+#table_wrapper{
+  padding: 2em;
+  table {
+    width: 100%;
+  }
+}
+

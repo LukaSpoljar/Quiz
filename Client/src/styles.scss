@@ -36,7 +36,8 @@ $Quiz-theme: mat.define-light-theme((
 
 /*My variables*/
 :root {
-  --my-background-color: rgb(57, 119, 211)
+  --my-background-color: rgb(57, 119, 211);
+  --my-border-radius: 0.2em;
 }
 
 /*My classes*/

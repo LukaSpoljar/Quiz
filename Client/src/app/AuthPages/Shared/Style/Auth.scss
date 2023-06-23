@@ -14,6 +14,8 @@ mat-card {
   display: flex;
   justify-content: space-between;
 
+  border-radius: var(--my-border-radius);
+
   mat-card-header {
     display: flex;
     justify-content: center;

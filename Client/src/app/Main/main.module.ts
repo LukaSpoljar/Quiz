@@ -4,6 +4,8 @@ import { MainRoutingModule } from './main-routing.module';
 import { MainComponent } from './MainRouter/main.component';
 import { NavigationComponent } from './Navigation/navigation.component';
 import {DashboardsModule} from "./MainRouter/Dashboards/dashboards.module";
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
 
 
 
@@ -15,7 +17,9 @@ import {DashboardsModule} from "./MainRouter/Dashboards/dashboards.module";
   imports: [
     CommonModule,
     MainRoutingModule,
-    DashboardsModule
+    DashboardsModule,
+    MatSidenavModule,
+    MatButtonToggleModule
   ]
 })
 export class MainModule { }
