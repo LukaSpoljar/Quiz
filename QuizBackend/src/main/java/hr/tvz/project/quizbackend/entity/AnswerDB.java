@@ -11,10 +11,11 @@ import lombok.NoArgsConstructor;
  */
 @Entity
 @Table(name="answer")
+@SequenceGenerator(name="answer_gen", sequenceName="answer_gen", initialValue=14)
 public class AnswerDB {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.AUTO, generator = "answer_gen")
     private Long id;
 
     @Column(nullable = false)

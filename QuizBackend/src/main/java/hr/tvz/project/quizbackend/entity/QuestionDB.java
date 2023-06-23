@@ -13,10 +13,11 @@ import java.util.List;
  */
 @Entity
 @Table(name="question")
+@SequenceGenerator(name="question_gen", sequenceName="question_gen", initialValue=5)
 public class QuestionDB {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.AUTO, generator = "question_gen")
     private Long id;
 
     @Column(nullable=false)
