@@ -1,0 +1,142 @@
+
+
+
+----------------------------------------------------------------------------------
+------------------------- GET http://localhost:8080/quiz -----------------------------
+----------------------------------------------------------------------------------
+
+Response:
+[
+   {
+      "author" : "Å¡tef",
+      "category" : {
+         "id" : 1,
+         "name" : "General knowledge"
+      },
+      "id" : 1,
+      "name" : "Prvi kviz",
+      "questionCount" : 2,
+      "uuid" : "5629a5ca-becc-44bc-8135-a4af9e8da4c3"
+   },
+   {
+      "author" : "ivan",
+      "category" : {
+         "id" : 1,
+         "name" : "General knowledge"
+      },
+      "id" : 2,
+      "name" : "Drugi kviz",
+      "questionCount" : 2,
+      "uuid" : "4283d5c9-8f4a-41fc-b457-5582bdd3a88b"
+   }
+]
+
+
+
+
+
+----------------------------------------------------------------------------------
+------------------------- GET http://localhost:8080/quiz/1 -----------------------------
+----------------------------------------------------------------------------------
+
+{
+   "author" : "Å¡tef",
+   "category" : {
+      "id" : 1,
+      "name" : "General knowledge"
+   },
+   "id" : 1,
+   "name" : "Prvi kviz",
+   "questionCount" : 2,
+   "questions" : [
+      {
+         "answers" : [
+            {
+               "content" : "Ovaj",
+               "correct" : true,
+               "id" : 1,
+               "isCorrect" : true
+            },
+            {
+               "content" : "Onaj",
+               "correct" : false,
+               "id" : 2,
+               "isCorrect" : false
+            },
+            {
+               "content" : "Ne znam",
+               "correct" : false,
+               "id" : 3,
+               "isCorrect" : false
+            }
+         ],
+         "id" : 1,
+         "text" : "Koji je prvi kviz na kviz aplikaciji?"
+      },
+      {
+         "answers" : [
+            {
+               "content" : "Nepar",
+               "correct" : false,
+               "id" : 4,
+               "isCorrect" : false
+            },
+            {
+               "content" : "Vepar",
+               "correct" : false,
+               "id" : 5,
+               "isCorrect" : false
+            },
+            {
+               "content" : "Petar",
+               "correct" : true,
+               "id" : 6,
+               "isCorrect" : true
+            },
+            {
+               "content" : "Å estar",
+               "correct" : false,
+               "id" : 7,
+               "isCorrect" : false
+            }
+         ],
+         "id" : 2,
+         "text" : "Kako se zove vepar sa 5 nogu?"
+      }
+   ],
+   "uuid" : "5629a5ca-becc-44bc-8135-a4af9e8da4c3"
+}
+
+
+
+
+
+----------------------------------------------------------------------------------
+------------------------- GET http://localhost:8080/quiz/1/results -----------------------------
+----------------------------------------------------------------------------------
+
+Response:
+{
+   "quizId" : 1,
+   "quizName" : "Prvi kviz",
+   "scoreboard" : [
+      {
+         "correct" : 2,
+         "playerId" : 2,
+         "success" : 1,
+         "total" : 2,
+         "username" : "luka"
+      },
+      {
+         "correct" : 1,
+         "playerId" : 3,
+         "success" : 0.5,
+         "total" : 2,
+         "username" : "ivan"
+      }
+   ]
+}
+
+
+
+
