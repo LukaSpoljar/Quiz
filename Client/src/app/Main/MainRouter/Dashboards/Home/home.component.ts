@@ -2,10 +2,10 @@ import {Component} from '@angular/core';
 import {MatButtonToggleChange} from "@angular/material/button-toggle";
 
 export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
+  name: string | null;
+  position: string | null | number;
+  weight: number | null;
+  symbol: string | null;
 }
 
 @Component({

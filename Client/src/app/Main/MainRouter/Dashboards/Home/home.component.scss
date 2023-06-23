@@ -8,10 +8,35 @@ mat-button-toggle-group {
   }
 }
 
-#table_wrapper{
+
+main {
   padding: 2em;
-  table {
-    width: 100%;
+  height: 50%;
+
+  #table_wrapper {
+    height: 100%;
+    overflow: auto;
+
+    table {
+      width: 100%;
+    }
   }
 }
 
+[mat-header-row], [mat-row] {
+  td {
+    border: 0px solid black;
+  }
+}
+
+.mat-column-position, .mat-column-ratings {
+  width: 5%;
+}
+
+.mat-column-name, .mat-column-category {
+  width: 25%;
+}
+
+.mat-column-delete, .mat-column-solve {
+  text-align: center;
+}
