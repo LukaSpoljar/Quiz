@@ -6,13 +6,14 @@ import {SolveQuizComponent} from './SolveQuiz/solve-quiz.component';
 import {MakeQuizComponent} from "./MakeQuiz/make-quiz.component";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {MatTableModule} from "@angular/material/table";
-
+import {HighlightDirective} from "../../../Shared/Directives/highlight.directive";
 
 @NgModule({
   declarations: [
     HomeComponent,
     MakeQuizComponent,
-    SolveQuizComponent
+    SolveQuizComponent,
+    HighlightDirective
   ],
   imports: [
     CommonModule,

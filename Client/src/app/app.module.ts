@@ -13,7 +13,6 @@ import {MatInputModule} from "@angular/material/input";
 import {MatIconModule} from "@angular/material/icon";
 import {HttpClientModule} from "@angular/common/http";
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,6 +32,7 @@ import {HttpClientModule} from "@angular/common/http";
     MatIconModule
   ],
   providers: [],
+  exports: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {
