@@ -1,6 +1,7 @@
 package hr.tvz.project.quizbackend.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,7 @@ public class AnswerDB {
 
     public boolean isCorrect;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="question_id", nullable=false)
     private QuestionDB question;
