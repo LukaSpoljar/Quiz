@@ -64,6 +64,14 @@ public class QuestionDB {
         this.quiz = quiz;
     }
 
+    public List<AnswerDB> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(List<AnswerDB> answers) {
+        this.answers = answers;
+    }
+
     @Override
     public String toString() {
         return "QuestionDB{" +

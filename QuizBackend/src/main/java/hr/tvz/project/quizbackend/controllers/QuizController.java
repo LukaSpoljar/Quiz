@@ -1,11 +1,11 @@
 package hr.tvz.project.quizbackend.controllers;
 
-import hr.tvz.project.quizbackend.domain.QuizBasicDTO;
-import hr.tvz.project.quizbackend.domain.QuizDTO;
-import hr.tvz.project.quizbackend.domain.QuizResultsCollectionDTO;
+import hr.tvz.project.quizbackend.domain.*;
+import hr.tvz.project.quizbackend.entity.PlayerDB;
 import hr.tvz.project.quizbackend.entity.QuizDB;
 import hr.tvz.project.quizbackend.entity.ResultDB;
 import hr.tvz.project.quizbackend.service.QuizService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -58,6 +58,17 @@ public class QuizController {
         //   curl -X GET http://localhost:8080/quiz/1/results | python3 -m json.tool
         QuizResultsCollectionDTO resultsCollection = quizService.getResults(id);
         return new ResponseEntity<>(resultsCollection, HttpStatus.OK);
+    }
+
+    @PostMapping("/solve")
+    public ResponseEntity<?> solveQuiz(
+        @Valid @RequestBody SolveQuizForm solveQuiz
+    ){
+        SolveQuizResponse solveResponse = quizService.saveResults(solveQuiz);
+        if (solveResponse.getError().isPresent()) {
+            return new ResponseEntity<>(solveResponse.getError(), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(solveQuiz, HttpStatus.OK);
     }
 
 }
