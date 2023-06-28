@@ -2,6 +2,31 @@
 
 
 ----------------------------------------------------------------------------------
+------------------------- GET http://localhost:8080/player/all -----------------------------
+----------------------------------------------------------------------------------
+
+Response:
+[
+   {
+      "username" : "Å¡tef",
+      "uuid" : "b0968cb9-7787-40ac-837b-8928c63e7a78"
+   },
+   {
+      "username" : "luka",
+      "uuid" : "b86649a2-fa0a-4251-8e2b-fece4c7e7ec1"
+   },
+   {
+      "username" : "ivan",
+      "uuid" : "77ff74f3-5782-440a-9fd3-e2c12064e801"
+   }
+]
+
+
+
+
+
+
+----------------------------------------------------------------------------------
 ------------------------- GET http://localhost:8080/quiz -----------------------------
 ----------------------------------------------------------------------------------
 
@@ -16,7 +41,7 @@ Response:
       "id" : 1,
       "name" : "Prvi kviz",
       "questionCount" : 2,
-      "uuid" : "5629a5ca-becc-44bc-8135-a4af9e8da4c3"
+      "uuid" : "fef4f4e0-e6de-4de3-9399-b7d511b9a7a3"
    },
    {
       "author" : "ivan",
@@ -27,7 +52,7 @@ Response:
       "id" : 2,
       "name" : "Drugi kviz",
       "questionCount" : 2,
-      "uuid" : "4283d5c9-8f4a-41fc-b457-5582bdd3a88b"
+      "uuid" : "c69fd6a3-4244-4f6f-9fdd-c1cd5110f4b9"
    }
 ]
 
@@ -104,7 +129,7 @@ Response:
          "text" : "Kako se zove vepar sa 5 nogu?"
       }
    ],
-   "uuid" : "5629a5ca-becc-44bc-8135-a4af9e8da4c3"
+   "uuid" : "fef4f4e0-e6de-4de3-9399-b7d511b9a7a3"
 }
 
 
@@ -133,9 +158,30 @@ Response:
          "success" : 0.5,
          "total" : 2,
          "username" : "ivan"
+      },
+      {
+         "correct" : 1,
+         "playerId" : 1,
+         "success" : 0.5,
+         "total" : 2,
+         "username" : "Å¡tef"
       }
    ]
 }
+
+
+
+
+
+----------------------------------------------------------------------------------
+------------------------- POST http://localhost:8080/quiz/solve -----------------------------
+----------------------------------------------------------------------------------
+
+Body:
+{"quizUuid":"fef4f4e0-e6de-4de3-9399-b7d511b9a7a3","playerUuid":"b0968cb9-7787-40ac-837b-8928c63e7a78","answers":[{"questionId":1,"answerId":1},{"questionId":2,"answerId":5}]} 
+
+Response:
+"QUIZ_ALREADY_SOLVED"
 
 
 

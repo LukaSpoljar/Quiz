@@ -54,21 +54,19 @@ public class QuizController {
     @GetMapping("/{id}/results")
     public ResponseEntity<QuizResultsCollectionDTO> getResults(@PathVariable Long id)
     {
-        // Test with cURL and python:
-        //   curl -X GET http://localhost:8080/quiz/1/results | python3 -m json.tool
         QuizResultsCollectionDTO resultsCollection = quizService.getResults(id);
         return new ResponseEntity<>(resultsCollection, HttpStatus.OK);
     }
 
     @PostMapping("/solve")
     public ResponseEntity<?> solveQuiz(
-        @Valid @RequestBody SolveQuizForm solveQuiz
+        @Valid @RequestBody SolveQuizForm solveQuizForm
     ){
-        SolveQuizResponse solveResponse = quizService.saveResults(solveQuiz);
+        SolveQuizResponse solveResponse = quizService.solveQuiz(solveQuizForm);
         if (solveResponse.getError().isPresent()) {
             return new ResponseEntity<>(solveResponse.getError(), HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(solveQuiz, HttpStatus.OK);
+        return new ResponseEntity<>(solveResponse.getResult(), HttpStatus.OK);
     }
 
 }

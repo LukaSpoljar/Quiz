@@ -14,8 +14,8 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<String> postResponse(){
-        return new ResponseEntity<>("GotIt", HttpStatus.OK);
+    public ResponseEntity<?> postResponse(@RequestBody Object someBody){
+        return new ResponseEntity<>(someBody, HttpStatus.OK);
     }
     @PutMapping
     public ResponseEntity<String> putResponse(){

@@ -43,7 +43,14 @@ public class QuizService {
         return new QuizResultsCollectionDTO(results);
     }
 
-    public SolveQuizResponse saveResults(SolveQuizForm solveQuizForm) {
+    // Create Quiz result. If player already solved the quiz, returns Optional.empty()
+    public ResultDB createQuizResult(PlayerDB playerDB, QuizDB quizDB, int countCorrect) {
+        ResultDB resultDB = new ResultDB(playerDB, quizDB, countCorrect);
+        resultRepository.save(resultDB);
+        return resultDB;
+    }
+
+    public SolveQuizResponse solveQuiz(SolveQuizForm solveQuizForm) {
 
         Optional<QuizDB> quiz = quizRepository.findByUuid(solveQuizForm.getQuizUuid());
         if (quiz.isEmpty()) {
@@ -78,7 +85,13 @@ public class QuizService {
             return isCorrect;
         }).count();
 
-        ResultDB resultDB = resultRepository.findById((long) 0).get();
+
+        Optional<ResultDB> previousResult = resultRepository.findAllByQuizIdAndPlayerId(quiz.get().getId(), player.get().getId());
+        if (previousResult.isPresent()) {
+            return SolveQuizResponse.invalid("QUIZ_ALREADY_SOLVED");
+        }
+
+        ResultDB resultDB = createQuizResult(player.get(), quiz.get(), correct);
         QuizResultsRowDTO resultDTO = new QuizResultsRowDTO(
                 resultDB.getPlayer().getId(),
                 resultDB.getPlayer().getUsername(),
