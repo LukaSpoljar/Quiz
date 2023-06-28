@@ -43,8 +43,8 @@ echo "\n\n\n" >> $fout
 
 quiz_solve_url="http://localhost:8080/quiz/solve"
 # Note - quizUuid and playerUuid values change each time the project is ran, so these values must be reset each time
-quiz_uuid="fef4f4e0-e6de-4de3-9399-b7d511b9a7a3"
-player_uuid="b0968cb9-7787-40ac-837b-8928c63e7a78"
+quiz_uuid="28d1c7af-98dc-4201-a22c-9aebfabc68cb"
+player_uuid="1e2320d9-3580-4e81-b6b6-13dcfe483bfe"
 quiz_solve_body="{\"quizUuid\":\"$quiz_uuid\",\"playerUuid\":\"$player_uuid\",\"answers\":[{\"questionId\":1,\"answerId\":1},{\"questionId\":2,\"answerId\":5}]}"
 echo "\n----------------------------------------------------------------------------------" >> $fout
 echo "------------------------- POST $quiz_solve_url -----------------------------" >> $fout

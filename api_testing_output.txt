@@ -9,15 +9,15 @@ Response:
 [
    {
       "username" : "Å¡tef",
-      "uuid" : "b0968cb9-7787-40ac-837b-8928c63e7a78"
+      "uuid" : "1e2320d9-3580-4e81-b6b6-13dcfe483bfe"
    },
    {
       "username" : "luka",
-      "uuid" : "b86649a2-fa0a-4251-8e2b-fece4c7e7ec1"
+      "uuid" : "2a2cea71-4c49-44cc-ac45-9c571b3c81ec"
    },
    {
       "username" : "ivan",
-      "uuid" : "77ff74f3-5782-440a-9fd3-e2c12064e801"
+      "uuid" : "b488b6fe-f6c2-477c-9928-95041dd6e189"
    }
 ]
 
@@ -41,7 +41,7 @@ Response:
       "id" : 1,
       "name" : "Prvi kviz",
       "questionCount" : 2,
-      "uuid" : "fef4f4e0-e6de-4de3-9399-b7d511b9a7a3"
+      "uuid" : "28d1c7af-98dc-4201-a22c-9aebfabc68cb"
    },
    {
       "author" : "ivan",
@@ -52,7 +52,7 @@ Response:
       "id" : 2,
       "name" : "Drugi kviz",
       "questionCount" : 2,
-      "uuid" : "c69fd6a3-4244-4f6f-9fdd-c1cd5110f4b9"
+      "uuid" : "e9b24d6d-9ac8-4df4-a254-b11d503719bd"
    }
 ]
 
@@ -129,7 +129,7 @@ Response:
          "text" : "Kako se zove vepar sa 5 nogu?"
       }
    ],
-   "uuid" : "fef4f4e0-e6de-4de3-9399-b7d511b9a7a3"
+   "uuid" : "28d1c7af-98dc-4201-a22c-9aebfabc68cb"
 }
 
 
@@ -158,13 +158,6 @@ Response:
          "success" : 0.5,
          "total" : 2,
          "username" : "ivan"
-      },
-      {
-         "correct" : 1,
-         "playerId" : 1,
-         "success" : 0.5,
-         "total" : 2,
-         "username" : "Å¡tef"
       }
    ]
 }
@@ -178,10 +171,16 @@ Response:
 ----------------------------------------------------------------------------------
 
 Body:
-{"quizUuid":"fef4f4e0-e6de-4de3-9399-b7d511b9a7a3","playerUuid":"b0968cb9-7787-40ac-837b-8928c63e7a78","answers":[{"questionId":1,"answerId":1},{"questionId":2,"answerId":5}]} 
+{"quizUuid":"28d1c7af-98dc-4201-a22c-9aebfabc68cb","playerUuid":"1e2320d9-3580-4e81-b6b6-13dcfe483bfe","answers":[{"questionId":1,"answerId":1},{"questionId":2,"answerId":5}]} 
 
 Response:
-"QUIZ_ALREADY_SOLVED"
+{
+   "correct" : 1,
+   "playerId" : 1,
+   "success" : 0.5,
+   "total" : 2,
+   "username" : "Å¡tef"
+}
 
 
 
