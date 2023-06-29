@@ -1,0 +1,70 @@
+<header>
+  <mat-button-toggle-group name="sorting_and_filtering_options" aria-label="Sorting and filtering options" (change)="toggle($event)">
+    <div>
+      <mat-button-toggle value="all">All quizzes</mat-button-toggle>
+      <mat-button-toggle value="my">My quizzes</mat-button-toggle>
+    </div>
+    <div>
+      <mat-button-toggle value="filter">Filter</mat-button-toggle>
+    </div>
+  </mat-button-toggle-group>
+</header>
+
+<main>
+  <div id="table_wrapper">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef>
+          <p>No.</p>
+        </th>
+        <td mat-cell *matCellDef="let element"><p>{{element.position}}</p></td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>
+          <p>Name</p>
+        </th>
+        <td mat-cell *matCellDef="let element"><p>{{element.name}}</p></td>
+      </ng-container>
+
+      <!--Category Column -->
+      <ng-container matColumnDef="category">
+        <th mat-header-cell *matHeaderCellDef>
+          <p>Category</p>
+        </th>
+        <td mat-cell *matCellDef="let element"><p>{{element.weight}}</p></td>
+      </ng-container>
+
+      <!-- Ratings Column-->
+      <ng-container matColumnDef="ratings">
+        <th mat-header-cell *matHeaderCellDef>
+          <p>Ratings</p>
+        </th>
+        <td mat-cell *matCellDef="let element"><p>{{element.symbol}}</p></td>
+      </ng-container>
+
+      <!--Delete Column-->
+      <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef>
+          <p>Delete</p>
+        </th>
+        <td mat-cell *matCellDef="let element"><button>Delete</button></td>
+      </ng-container>
+
+      <!-- Solve Column-->
+      <ng-container matColumnDef="solve">
+        <th mat-header-cell *matHeaderCellDef>
+          <p>Solve</p>
+        </th>
+        <td mat-cell *matCellDef="let element"><button>Solve</button></td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" appHighlight></tr>
+
+    </table>
+  </div>
+</main>

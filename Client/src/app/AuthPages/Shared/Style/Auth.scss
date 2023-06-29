@@ -1,6 +1,5 @@
 #card_wrapper {
   height: 100%;
-  width: 100%;
 
   display: flex;
   justify-content: center;
@@ -14,6 +13,8 @@ mat-card {
 
   display: flex;
   justify-content: space-between;
+
+  border-radius: var(--my-border-radius);
 
   mat-card-header {
     display: flex;

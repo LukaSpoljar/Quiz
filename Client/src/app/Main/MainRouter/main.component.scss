@@ -1,0 +1,27 @@
+:root {
+  --my-element-height: 0;
+}
+
+header {
+  h1 {
+    text-align: center;
+  }
+}
+
+.example-container {
+  background-color: var(--my-background-color);
+  height: max(100% - var(--my-element-height));
+}
+
+mat-drawer {
+  app-navigation {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+mat-drawer, mat-drawer-content{
+  padding: 1em;
+  background-color: rgba(255, 0, 0, 0);
+  border: 0px solid black;
+}

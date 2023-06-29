@@ -22,8 +22,7 @@
           <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
             <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
           </button>
-          <mat-error>{{errorMessages[2]}}</mat-error>
-
+          <mat-error>{{errorMessages[1]}}</mat-error>
         </mat-form-field>
 
         <!-- Confirm password -->
@@ -33,17 +32,18 @@
           <button mat-icon-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideConfirmPassword">
             <mat-icon>{{hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
           </button>
-          <mat-error>{{errorMessages[3]}}</mat-error>
+          <mat-error>{{errorMessages[2]}}</mat-error>
         </mat-form-field>
 
-        <!-- user email -->
-        <input type="hidden" name="email" value="" #emptyOne/>
+        <!-- User email -->
+        <input type="hidden" name="email" value="" formControlName="email"/>
 
       </form>
     </mat-card-content>
 
     <mat-card-actions>
       <div>
+        <mat-error>{{errorMessages[3]}}</mat-error>
         <button mat-button class="my-button-theme" (click)="onSubmit()" >Sign up</button>
         <button mat-button class="my-button-theme" (click)="clientRoutes.navigateToLogin()">Already have an account ?</button>
       </div>

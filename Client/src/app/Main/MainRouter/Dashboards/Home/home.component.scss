@@ -1,0 +1,42 @@
+mat-button-toggle-group {
+  flex-direction: row;
+  justify-content: space-between;
+
+  div {
+    display: flex;
+    justify-content: start;
+  }
+}
+
+
+main {
+  padding: 2em;
+  height: 50%;
+
+  #table_wrapper {
+    height: 100%;
+    overflow: auto;
+
+    table {
+      width: 100%;
+    }
+  }
+}
+
+[mat-header-row], [mat-row] {
+  td {
+    border: 0px solid black;
+  }
+}
+
+.mat-column-position, .mat-column-ratings {
+  width: 5%;
+}
+
+.mat-column-name, .mat-column-category {
+  width: 25%;
+}
+
+.mat-column-delete, .mat-column-solve {
+  text-align: center;
+}

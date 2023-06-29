@@ -1,0 +1,10 @@
+mat-button-toggle-group {
+  display: flex;
+  flex-direction: column;
+  border: 0px solid black;
+
+  mat-button-toggle {
+    margin: 0.5em;
+    border-radius: var(--my-border-radius);
+  }
+}
