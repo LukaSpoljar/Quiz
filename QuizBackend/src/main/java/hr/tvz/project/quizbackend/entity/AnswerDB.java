@@ -36,6 +36,12 @@ public class AnswerDB {
         this.isCorrect = isCorrect;
     }
 
+    public AnswerDB(String content, boolean isCorrect, QuestionDB questionDB) {
+        this.content = content;
+        this.isCorrect = isCorrect;
+        this.question = questionDB;
+    }
+
     public Long getId() {
         return id;
     }
@@ -58,6 +64,14 @@ public class AnswerDB {
 
     public void setCorrect(boolean correct) {
         isCorrect = correct;
+    }
+
+    public QuestionDB getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(QuestionDB question) {
+        this.question = question;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package hr.tvz.project.quizbackend.domain;
 
+import hr.tvz.project.quizbackend.entity.QuizDB;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,16 +15,15 @@ public class CreateQuizResponse {
     // If present, it means that the client sent bad request
     Optional<String> error;
 
-    // If present, it means that the client sent proper request
-    Optional<QuizDTO> quiz;
+    Optional<QuizDB> quiz;
 
     public static CreateQuizResponse invalid(String error) {
         CreateQuizResponse solveResponse = new CreateQuizResponse(Optional.of(error), Optional.empty());
         return solveResponse;
     }
 
-    public static CreateQuizResponse valid(QuizDTO quizDTO) {
-        CreateQuizResponse createResponse = new CreateQuizResponse(Optional.empty(), Optional.of(quizDTO));
+    public static CreateQuizResponse valid(QuizDB quiz) {
+        CreateQuizResponse createResponse = new CreateQuizResponse(Optional.empty(), Optional.of(quiz));
         return createResponse;
     }
 
