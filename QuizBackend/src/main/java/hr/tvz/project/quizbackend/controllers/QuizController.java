@@ -1,10 +1,10 @@
 package hr.tvz.project.quizbackend.controllers;
 
 import hr.tvz.project.quizbackend.domain.*;
-import hr.tvz.project.quizbackend.entity.PlayerDB;
+import hr.tvz.project.quizbackend.entity.CategoryDB;
 import hr.tvz.project.quizbackend.entity.QuizDB;
-import hr.tvz.project.quizbackend.entity.ResultDB;
 import hr.tvz.project.quizbackend.service.QuizService;
+import hr.tvz.project.quizbackend.service.ResultService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,11 +20,15 @@ import java.util.Optional;
 public class QuizController {
 
     private final QuizService quizService;
+    private final ResultService quizResultService;
 
     @Autowired
-    public QuizController(QuizService quizService)
-    {
+    public QuizController(
+            QuizService quizService,
+            ResultService quizResultService
+    ) {
         this.quizService = quizService;
+        this.quizResultService = quizResultService;
     }
 
     @GetMapping
@@ -51,18 +55,36 @@ public class QuizController {
         return new ResponseEntity<>("QUIZ_NOT_FOUND", HttpStatus.NOT_FOUND);
     }
 
+    @GetMapping("/category")
+    public ResponseEntity<List<CategoryDB>> getCategories()
+    {
+        List<CategoryDB> categories = quizService.getCategories();
+        return new ResponseEntity<>(categories, HttpStatus.OK);
+    }
+
     @GetMapping("/{id}/results")
     public ResponseEntity<QuizResultsCollectionDTO> getResults(@PathVariable Long id)
     {
-        QuizResultsCollectionDTO resultsCollection = quizService.getResults(id);
+        QuizResultsCollectionDTO resultsCollection = quizResultService.getByQuizId(id);
         return new ResponseEntity<>(resultsCollection, HttpStatus.OK);
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<?> createQuiz(
+         @Valid @RequestBody CreateQuizForm createQuizForm
+    ) {
+        CreateQuizResponse createResponse = quizService.createQuiz(createQuizForm);
+        if (createResponse.getError().isPresent()) {
+            return new ResponseEntity<>(createResponse.getError(), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(createResponse.getQuiz(), HttpStatus.OK);
     }
 
     @PostMapping("/solve")
     public ResponseEntity<?> solveQuiz(
         @Valid @RequestBody SolveQuizForm solveQuizForm
     ){
-        SolveQuizResponse solveResponse = quizService.solveQuiz(solveQuizForm);
+        SolveQuizResponse solveResponse = quizResultService.solveQuiz(solveQuizForm);
         if (solveResponse.getError().isPresent()) {
             return new ResponseEntity<>(solveResponse.getError(), HttpStatus.NOT_FOUND);
         }

@@ -17,7 +17,7 @@ public class QuizDB {
     @GeneratedValue(strategy=GenerationType.AUTO, generator = "quiz_gen")
     private Long id;
 
-    @Column (unique = true)
+    // @Column (unique = true)
     private String name;
 
     @ManyToOne(fetch = FetchType.EAGER)
