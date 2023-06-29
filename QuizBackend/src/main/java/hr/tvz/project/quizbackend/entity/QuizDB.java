@@ -10,10 +10,11 @@ import java.util.List;
  */
 @Entity
 @Table(name="quiz")
+@SequenceGenerator(name="quiz_gen", sequenceName="quiz_gen", initialValue=3)
 public class QuizDB {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.AUTO, generator = "quiz_gen")
     private Long id;
 
     @Column (unique = true)

@@ -52,4 +52,6 @@ insert into answer (id, content, is_correct, question_id) values
 -- Generate quiz results
 insert into result (id, player_id, quiz_id, correct) values
     (1, 2, 1, 2),
-    (2, 2, 2, 1);
+    (2, 3, 1, 1),
+    (3, 2, 2, 0),
+    (4, 3, 2, 1);

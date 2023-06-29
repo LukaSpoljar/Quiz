@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
+@CrossOrigin("http://localhost:4200")
 public class UserController {
 
     @GetMapping
@@ -13,8 +14,8 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<String> postResponse(){
-        return new ResponseEntity<>("GotIt", HttpStatus.OK);
+    public ResponseEntity<?> postResponse(@RequestBody Object someBody){
+        return new ResponseEntity<>(someBody, HttpStatus.OK);
     }
     @PutMapping
     public ResponseEntity<String> putResponse(){

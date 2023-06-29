@@ -8,10 +8,11 @@ import jakarta.persistence.*;
  */
 @Entity
 @Table(name="category")
+@SequenceGenerator(name="category_gen", sequenceName="category_gen", initialValue=6)
 public class CategoryDB {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.AUTO, generator = "category_gen")
     private Long id;
 
     @Column(nullable = false)

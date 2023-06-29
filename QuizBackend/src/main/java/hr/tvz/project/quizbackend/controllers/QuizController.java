@@ -1,23 +1,22 @@
 package hr.tvz.project.quizbackend.controllers;
 
-import hr.tvz.project.quizbackend.domain.QuizBasicDTO;
-import hr.tvz.project.quizbackend.domain.QuizDTO;
-import hr.tvz.project.quizbackend.domain.QuizResultsListDTO;
+import hr.tvz.project.quizbackend.domain.*;
+import hr.tvz.project.quizbackend.entity.PlayerDB;
 import hr.tvz.project.quizbackend.entity.QuizDB;
+import hr.tvz.project.quizbackend.entity.ResultDB;
 import hr.tvz.project.quizbackend.service.QuizService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/quiz")
+@CrossOrigin("http://localhost:4200")
 public class QuizController {
 
     private final QuizService quizService;
@@ -53,11 +52,21 @@ public class QuizController {
     }
 
     @GetMapping("/{id}/results")
-    public ResponseEntity<?> getResults(@PathVariable Long id)
+    public ResponseEntity<QuizResultsCollectionDTO> getResults(@PathVariable Long id)
     {
-        // Test with cURL and python:
-        //   curl -X GET http://localhost:8080/quiz/1/results | python3 -m json.tool
-        return new ResponseEntity<>("Not implemented", HttpStatus.OK);
+        QuizResultsCollectionDTO resultsCollection = quizService.getResults(id);
+        return new ResponseEntity<>(resultsCollection, HttpStatus.OK);
+    }
+
+    @PostMapping("/solve")
+    public ResponseEntity<?> solveQuiz(
+        @Valid @RequestBody SolveQuizForm solveQuizForm
+    ){
+        SolveQuizResponse solveResponse = quizService.solveQuiz(solveQuizForm);
+        if (solveResponse.getError().isPresent()) {
+            return new ResponseEntity<>(solveResponse.getError(), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(solveResponse.getResult(), HttpStatus.OK);
     }
 
 }

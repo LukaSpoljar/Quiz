@@ -7,10 +7,11 @@ import java.text.DecimalFormat;
 
 @Entity
 @Table(name="result")
+@SequenceGenerator(name="result_gen", sequenceName="result_gen", initialValue=5)
 public class ResultDB {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.AUTO, generator = "result_gen")
     private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
