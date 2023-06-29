@@ -10,15 +10,14 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SolveQuizForm {
+public class CreateQuizQuestion {
 
     @NotNull
-    String playerUuid;
+    String text;
 
     @NotNull
-    String quizUuid;
+    List<String> incorrectAnswers;
 
     @NotNull
-    List<SolveQuizAnswer> answers;
-
+    String correctAnswer;
 }

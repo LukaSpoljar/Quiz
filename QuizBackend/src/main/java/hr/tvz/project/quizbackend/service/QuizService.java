@@ -1,32 +1,35 @@
 package hr.tvz.project.quizbackend.service;
 
-import hr.tvz.project.quizbackend.domain.QuizResultsCollectionDTO;
-import hr.tvz.project.quizbackend.domain.QuizResultsRowDTO;
-import hr.tvz.project.quizbackend.domain.SolveQuizForm;
-import hr.tvz.project.quizbackend.domain.SolveQuizResponse;
+import hr.tvz.project.quizbackend.domain.*;
 import hr.tvz.project.quizbackend.entity.*;
-import hr.tvz.project.quizbackend.repository.PlayerRepository;
-import hr.tvz.project.quizbackend.repository.QuizRepository;
-import hr.tvz.project.quizbackend.repository.ResultRepository;
+import hr.tvz.project.quizbackend.repository.*;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class QuizService {
     private final QuizRepository quizRepository;
-    private final ResultRepository resultRepository;
     private final PlayerRepository playerRepository;
+    private final CategoryRepository categoryRepository;
+    private final QuestionRepository questionRepository;
+    private final AnswerRepository answerRepository;
 
     public QuizService(
             QuizRepository quizRepository,
-            ResultRepository resultRepository,
-            PlayerRepository playerRepository
+            PlayerRepository playerRepository,
+            CategoryRepository categoryRepository,
+            QuestionRepository questionRepository,
+            AnswerRepository answerRepository
     ) {
         this.quizRepository = quizRepository;
-        this.resultRepository = resultRepository;
         this.playerRepository = playerRepository;
+        this.categoryRepository = categoryRepository;
+        this.questionRepository = questionRepository;
+        this.answerRepository = answerRepository;
     }
 
     public Optional<QuizDB> getQuiz(Long id) {
@@ -37,71 +40,64 @@ public class QuizService {
         return quizRepository.findAll();
     }
 
-    //public QuizResultsDTO getResults(Long id) {
-    public QuizResultsCollectionDTO getResults(Long id) {
-        List<ResultDB> results = resultRepository.findAllByQuizId(id);
-        return new QuizResultsCollectionDTO(results);
-    }
+    public List<CategoryDB> getCategories() { return categoryRepository.findAll(); }
 
-    // Create Quiz result. If player already solved the quiz, returns Optional.empty()
-    public ResultDB createQuizResult(PlayerDB playerDB, QuizDB quizDB, int countCorrect) {
-        ResultDB resultDB = new ResultDB(playerDB, quizDB, countCorrect);
-        resultRepository.save(resultDB);
-        return resultDB;
-    }
+    @Transactional
+    public CreateQuizResponse createQuiz(CreateQuizForm form) {
 
-    public SolveQuizResponse solveQuiz(SolveQuizForm solveQuizForm) {
-
-        Optional<QuizDB> quiz = quizRepository.findByUuid(solveQuizForm.getQuizUuid());
-        if (quiz.isEmpty()) {
-            return SolveQuizResponse.invalid("QUIZ_NOT_FOUND");
-        }
-        Optional<PlayerDB> player = playerRepository.findByUuid(solveQuizForm.getPlayerUuid());
-        if (player.isEmpty()) {
-            return SolveQuizResponse.invalid("PLAYER_NOT_FOUND");
+        Optional<PlayerDB> author = playerRepository.findById(form.getAuthorId());
+        if (author.isEmpty()) {
+            return CreateQuizResponse.invalid("AUTHOR_NOT_FOUND");
         }
 
-        List<QuestionDB> quizQuestions = quiz.get().getQuestions();
-        int correct = 0;
-        int total = quizQuestions.size();
-
-        // Filter sent answers that are correct and save count
-        correct = (int) solveQuizForm.getAnswers().stream().filter(answer -> {
-            Long questionId = answer.getQuestionId();
-            Long answerId = answer.getAnswerId();
-
-            // Iterate quiz questions
-            boolean isCorrect = quizQuestions.stream().filter(q -> {
-                List<AnswerDB> answ = q.getAnswers();
-                long countCorrect = answ.stream().filter(a -> a.isCorrect() && a.getId() == answerId).count();
-
-                // If correct, take it
-                if (q.getId() == questionId && countCorrect > 0) {
-                    return true;
-                }
-                return false;
-            }).count() > 0;
-
-            return isCorrect;
-        }).count();
-
-
-        Optional<ResultDB> previousResult = resultRepository.findAllByQuizIdAndPlayerId(quiz.get().getId(), player.get().getId());
-        if (previousResult.isPresent()) {
-            return SolveQuizResponse.invalid("QUIZ_ALREADY_SOLVED");
+        Optional<CategoryDB> category = categoryRepository.findById(form.getCategoryId());
+        if (category.isEmpty()) {
+            return CreateQuizResponse.invalid("CATEGORY_NOT_FOUND");
         }
 
-        ResultDB resultDB = createQuizResult(player.get(), quiz.get(), correct);
-        QuizResultsRowDTO resultDTO = new QuizResultsRowDTO(
-                resultDB.getPlayer().getId(),
-                resultDB.getPlayer().getUsername(),
-                resultDB.getCorrect(),
-                resultDB.getTotal(),
-                resultDB.getSuccess()
+        // First add quiz with no questions
+        QuizDB quizDB = new QuizDB(
+                form.getName(),
+                author.get(),
+                category.get(),
+                new ArrayList<>()
         );
+        quizRepository.save(quizDB);
 
-        SolveQuizResponse solveResponse = SolveQuizResponse.valid(resultDTO);
-        return solveResponse;
+        // Init answers to questions
+        List<AnswerDB> answers = new ArrayList<>();
+
+        // Now add questions with no answers
+        List<QuestionDB> questions = form.getQuestions().stream().map(q -> {
+            QuestionDB questionDB = new QuestionDB(
+                    q.getText(),
+                    quizDB
+            );
+            // Prepare answers
+            answers.addAll(
+                q.getIncorrectAnswers()
+                    .stream()
+                    .map(ia -> new AnswerDB(ia, false, questionDB))
+                    .toList()
+            );
+            answers.add(new AnswerDB(q.getCorrectAnswer(), true, questionDB));
+            // Return question
+            return questionDB;
+        }).toList();
+        questionRepository.saveAll(questions);
+
+        // Now add prepared answers
+        answerRepository.saveAll(answers);
+
+        // Insert answers to questions
+        questions.stream().forEach(q -> {
+            q.setAnswers(answers.stream().filter(a -> a.getQuestion() == q).toList());
+        });
+        // Insert questions to quiz
+        quizDB.setQuestions(questions);
+
+        // Return quiz
+        return CreateQuizResponse.valid(quizDB);
     }
 
 }
