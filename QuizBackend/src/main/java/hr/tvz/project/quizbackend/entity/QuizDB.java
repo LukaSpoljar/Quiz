@@ -3,7 +3,6 @@ package hr.tvz.project.quizbackend.entity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -50,20 +49,6 @@ public class QuizDB {
         this.author = author;
         this.category = category;
         this.uuid = java.util.UUID.randomUUID().toString().toLowerCase();
-        this.questions = questions;
-    }
-
-    public QuizDB(
-            String name,
-            PlayerDB author,
-            CategoryDB category,
-            String uuid,
-            List<QuestionDB> questions)
-    {
-        this.name = name;
-        this.author = author;
-        this.category = category;
-        this.uuid = uuid;
         this.questions = questions;
     }
 
