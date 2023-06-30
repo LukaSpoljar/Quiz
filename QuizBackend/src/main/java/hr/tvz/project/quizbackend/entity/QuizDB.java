@@ -52,6 +52,20 @@ public class QuizDB {
         this.questions = questions;
     }
 
+    public QuizDB(
+            String name,
+            PlayerDB author,
+            CategoryDB category,
+            String uuid,
+            List<QuestionDB> questions)
+    {
+        this.name = name;
+        this.author = author;
+        this.category = category;
+        this.uuid = uuid;
+        this.questions = questions;
+    }
+
     public Long getId() {
         return id;
     }
