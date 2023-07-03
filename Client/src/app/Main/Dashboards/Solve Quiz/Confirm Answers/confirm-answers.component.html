@@ -1,0 +1,17 @@
+<div>
+  <button mat-raised-button color="primary" (click)="confirmFinish($event)">Confirm</button>
+</div>
+
+
+<mat-list role="list">
+  <mat-list-item role="listitem" *ngFor="let oneQuestion of data;" appHighlight>
+    <p><strong>{{oneQuestion.orderIndex + 1}}. {{oneQuestion.question}}</strong></p>
+    <span *ngFor="let oneAnswer of oneQuestion.answers; let i = index">{{oneAnswer}}
+      <ng-template [ngIf]="i < oneQuestion.answers.length -1">, </ng-template>
+    </span>
+  </mat-list-item>
+</mat-list>
+
+<div id="answered_questions_info">
+  <p class="wrong">Answered questions: {{data.length}}</p>
+</div>

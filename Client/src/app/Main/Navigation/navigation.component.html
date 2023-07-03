@@ -6,8 +6,16 @@
 <!--<button (click)="clientRoutes.navigateToDashboardSolveQuiz('123e4567-e89b-12d3-a456-426614174000')">Navigate to SolveQuiz</button>-->
 
 
-<mat-button-toggle-group name="navigation" aria-label="Navigation" (change)="toggle($event)">
-  <mat-button-toggle value="home" (click)="clientRoutes.navigateToDashboardHome()">Home page</mat-button-toggle>
-  <mat-button-toggle value="quiz" (click)="clientRoutes.navigateToDashboardMakeQuiz()">Make new quiz</mat-button-toggle>
-  <mat-button-toggle value="logout" (click)="logOut(); clientRoutes.navigateToLogin()">Log out</mat-button-toggle>
-</mat-button-toggle-group>
+<nav>
+  <div>
+    <h1 (click)="clientRoutes.navigateToDashboardHome()">Quiz</h1>
+  </div>
+  <mat-button-toggle-group name="navigation" aria-label="Navigation" (change)="toggle($event)">
+    <mat-button-toggle value="home" (click)="clientRoutes.navigateToDashboardHome()">Home page</mat-button-toggle>
+    <mat-button-toggle value="quiz" (click)="clientRoutes.navigateToDashboardMakeQuiz()">Make new quiz</mat-button-toggle>
+    <mat-button-toggle value="logout" (click)="logOut(); clientRoutes.navigateToLogin()">Log out</mat-button-toggle>
+  </mat-button-toggle-group>
+</nav>
+
+
+

@@ -1,0 +1,44 @@
+#solve_quiz {
+
+  flex: 1;
+
+  mat-card-content {
+    display: flex;
+    justify-content: stretch;
+    flex-direction: column;
+    flex: 1;
+
+
+    mat-list {
+      height: max(var(--solve-quiz-height) * 0.6);
+
+      overflow-y: auto;
+
+      div {
+        display: flex;
+        justify-content: center;
+      }
+
+      mat-list-item {
+        height: 4cm;
+        margin: 1em 0px;
+
+        mat-checkbox {
+          width: 100%;
+        }
+      }
+    }
+
+    div {
+      display: flex;
+      height: max(var(--solve-quiz-height) * 0.05);
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+  }
+}
+
+
+
+

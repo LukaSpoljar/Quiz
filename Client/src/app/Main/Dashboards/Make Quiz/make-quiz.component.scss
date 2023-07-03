@@ -1,0 +1,46 @@
+mat-card {
+  overflow: auto;
+  width: 100%;
+
+  mat-card-content {
+
+    mat-form-field {
+      width: 100%;
+    }
+
+    form:nth-child(1) {
+
+      mat-slider {
+        width: 100%;
+        max-width: 10cm;
+        padding: 0px;
+        margin: var(--my-size-1em);
+      }
+    }
+
+
+    mat-list {
+
+      padding: var(--my-size-2em);
+
+      mat-list-item {
+
+        .one_question_wrapper {
+
+          padding: var(--my-size-1em);
+
+          display: flex;
+          justify-content: space-between;
+          flex-direction: row;
+          align-items: center;
+        }
+      }
+    }
+  }
+
+  mat-card-footer {
+    margin-top: var(--my-size-1em);
+    display: flex;
+    justify-content: center;
+  }
+}

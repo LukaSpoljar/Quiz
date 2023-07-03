@@ -1,0 +1,45 @@
+:root {
+  --mat-drawer-container-height: 0;
+  --quizzes-list-height: 0;
+
+  --drawer-content-height: 0;
+  --solve-quiz-height: 0;
+}
+
+
+mat-drawer-container {
+  background-color: var(--my-background-color);
+
+  padding: var(--my-size-1em);
+  height: 100%;
+}
+
+mat-drawer {
+ // padding: var(--my-size-1em);
+
+  app-navigation {
+  }
+}
+
+mat-drawer, mat-drawer-content {
+  background-color: rgba(255, 0, 0, 0);
+  border: 0px solid black;
+  border-radius: var(--my-border-radius);
+}
+
+mat-drawer-content {
+  display: flex;
+  flex-direction: column;
+  flex: var(--mat-drawer-container-height);
+  padding: 0px var(--my-size-1em);
+}
+
+
+#drawer_content_header {
+  display: flex;
+  justify-content: space-between;
+  padding: 1em 0px;
+}
+
+
+

@@ -1,0 +1,44 @@
+<h1 mat-dialog-title>
+  Quizzes filtering
+</h1>
+
+<div mat-dialog-content>
+  <form [formGroup]="filterForm">
+
+    <!-- Filter quiz by name -->
+    <mat-form-field>
+      <mat-label>Filter by name</mat-label>
+      <input type="text" matInput formControlName="name">
+    </mat-form-field>
+
+    <!-- Filter quiz by category -->
+    <mat-form-field>
+      <mat-label>Filter by category</mat-label>
+      <input type="text" matInput formControlName="category" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+          {{option.name}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+
+    <div>
+      <!-- Filter quiz by ratings -->
+      <mat-label>Min rating:</mat-label>
+      <mat-radio-group formControlName="ratings" color="primary">
+        <mat-radio-button value="1">★</mat-radio-button>
+        <mat-radio-button value="2">★★</mat-radio-button>
+        <mat-radio-button value="3">★★★</mat-radio-button>
+        <mat-radio-button value="4">★★★★</mat-radio-button>
+        <mat-radio-button value="5">★★★★★</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+  </form>
+</div>
+
+
+<div mat-dialog-actions>
+  <button mat-raised-button [mat-dialog-close]="data">Ok</button>
+</div>

@@ -1,0 +1,36 @@
+<section id="solve_quiz_results">
+  <div id="table_wrapper">
+    <table mat-table [dataSource]="usersResults" class="mat-elevation-z8">
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef> No.</th>
+        <td mat-cell *matCellDef="let element" [ngStyle]="paintCurrentUser(element)"><p>{{element.position}}.</p></td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name</th>
+        <td mat-cell *matCellDef="let element" [ngStyle]="paintCurrentUser(element)"><p>{{element.name}}</p></td>
+      </ng-container>
+
+      <!-- Completion Column -->
+      <ng-container matColumnDef="completion">
+        <th mat-header-cell *matHeaderCellDef> Completion</th>
+        <td mat-cell *matCellDef="let element" [ngStyle]="paintCurrentUser(element)"><p>{{element.completion}}%</p></td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" appHighlight></tr>
+    </table>
+  </div>
+
+  <div>
+    <button mat-raised-button color="primary" value="home" (click)="clientRoutes.navigateToDashboardHome()">Back to quizzes</button>
+  </div>
+</section>
+
+
+
+
+

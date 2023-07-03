@@ -1,0 +1,39 @@
+[mat-dialog-content] {
+
+  mat-list {
+    mat-list-item {
+      .answer_wrapper {
+
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+        input:nth-child(1) {
+
+          outline: none;
+          border: 1px solid black;
+          border-radius: var(--my-border-radius);
+          padding: var(--my-size-1em);
+        }
+
+        .correct_answer_checkbox_wrapper {
+
+          display: flex;
+          justify-content: space-between;
+          align-content: center;
+          align-items: center;
+
+          mat-checkbox {
+            padding: 0px;
+            margin: 0px;
+          }
+        }
+      }
+    }
+  }
+
+  .add_new_answer_wrapper {
+    margin-top: var(--my-size-1em);
+  }
+}

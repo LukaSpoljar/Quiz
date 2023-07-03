@@ -1,0 +1,53 @@
+<mat-card id="solve_quiz">
+  <mat-card-content>
+    <mat-tab-group mat-stretch-tabs="true" color="primary" [selectedIndex]="selectedTabIndex" dynamicHeight>
+
+      <mat-tab [label]="tabsNames[0]" [disabled]="true">
+        <mat-list role="list">
+          <mat-list-item role="listitem" *ngFor="let oneQuiz of allQuizQuestions; let i = index">
+            <h3>{{i + 1}}. {{oneQuiz.title}}</h3>
+
+            <mat-grid-list cols="2" rowHeight="3em">
+
+              <mat-grid-tile *ngFor="let oneAnswer of oneQuiz.answers; let j = index">
+                <mat-checkbox color="primary" [value]="oneAnswer" (change)="checkboxIsClicked($event, oneQuiz.title, i)" appHighlight>{{oneAnswer}}</mat-checkbox>
+              </mat-grid-tile>
+
+            </mat-grid-list>
+          </mat-list-item>
+        </mat-list>
+        <div>
+          <button mat-raised-button color="primary" (click)="tryToSendQuizAnswers()">Finish</button>
+        </div>
+      </mat-tab>
+
+      <mat-tab [label]="tabsNames[1]" [disabled]="true">
+
+        <!--<ng-template matTabLabel>
+          <p>This is new title</p>
+        </ng-template>
+
+        <ng-template matTabContent>
+          <div *ngIf="1 % 2 == 0; else odd">
+            <h1>EVEN</h1>
+          </div>
+
+          <ng-template #odd>
+            <h1>ODD</h1>
+          </ng-template>
+
+          <p>Number of Clicks:</p>
+        </ng-template>-->
+
+
+        <template #tabContent></template>
+
+      </mat-tab>
+
+
+    </mat-tab-group>
+
+  </mat-card-content>
+</mat-card>
+
+

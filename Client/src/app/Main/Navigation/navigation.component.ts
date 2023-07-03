@@ -1,22 +1,23 @@
-import {Component, OnInit} from '@angular/core';
-import {ClientRoutes} from "../../Shared/Routes/ClientRoutes";
-import {Router} from "@angular/router";
+import {AfterViewInit, Component, ElementRef, OnInit} from '@angular/core';
 import {MatButtonToggleChange} from "@angular/material/button-toggle";
+import {ClientRoutesService} from "../../Shared/Services/Client Routes/client-routes.service";
 
 @Component({
   selector: 'app-navigation',
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.scss']
 })
-export class NavigationComponent implements OnInit{
+export class NavigationComponent implements OnInit, AfterViewInit{
 
-  readonly clientRoutes: ClientRoutes;
-
-  constructor(private _router: Router) {
-    this.clientRoutes = new ClientRoutes(this._router);
+  constructor(readonly clientRoutes: ClientRoutesService, private _elementRef:ElementRef) {
   }
 
   ngOnInit(): void {
+  }
+
+  ngAfterViewInit(): void {
+
+
   }
 
   public toggle(matButtonToggleChange: MatButtonToggleChange): void { console.dir(matButtonToggleChange); }
