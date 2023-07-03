@@ -1,0 +1,43 @@
+div:nth-child(1) {
+
+  height: 15%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+
+  button {
+    height: 80%;
+    max-height: 3cm;
+    width: 100%;
+    max-width: 10cm;
+    font-size: var(--my-size-2em);
+  }
+}
+
+mat-list {
+
+  height: 75%;
+  overflow-y: auto;
+
+  mat-list-item {
+    padding: var(--my-size-2em);
+
+    p {
+      padding: 0.5em 0px;
+    }
+  }
+}
+
+
+#answered_questions_info {
+  p {
+    text-align: center;
+  }
+}
+
+
+
+

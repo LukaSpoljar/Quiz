@@ -1,0 +1,20 @@
+:root{
+  --my-navigation-height: 0px;
+}
+
+mat-button-toggle-group {
+  display: flex;
+  flex-direction: column;
+  border: 0px solid black;
+
+
+  mat-button-toggle {
+    margin: 0.5em 0px;
+    border-radius: var(--my-border-radius);
+  }
+}
+
+h1 {
+  font-size: 4.5em;
+}
+

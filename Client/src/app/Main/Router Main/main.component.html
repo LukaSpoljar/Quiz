@@ -1,0 +1,23 @@
+<mat-drawer-container>
+  <mat-drawer mode="side" #drawer>
+    <app-navigation></app-navigation>
+  </mat-drawer>
+
+  <mat-drawer-content id="drawer_content">
+
+    <header id="drawer_content_header">
+      <mat-card>
+        <button id="navigation_open_button" mat-raised-button (click)="drawerToggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <button id="navigation_close_button" mat-raised-button (click)="drawerToggle()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-card>
+    </header>
+
+    <router-outlet></router-outlet>
+
+  </mat-drawer-content>
+
+</mat-drawer-container>

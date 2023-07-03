@@ -1,0 +1,60 @@
+<mat-card>
+  <mat-card-content>
+
+
+    <form [formGroup]="quizForm">
+      <!-- Quiz Title -->
+      <mat-form-field>
+        <mat-label>Enter quiz name</mat-label>
+        <input type="text" formControlName="title" matInput autocomplete="off">
+      </mat-form-field>
+
+      <!-- Quiz Category -->
+      <mat-form-field>
+        <mat-label>Enter quiz category</mat-label>
+        <input type="text" formControlName="category" matInput autocomplete="off">
+      </mat-form-field>
+
+
+      <!-- Quiz Difficulty -->
+      <div>
+        <mat-label>Set difficulty</mat-label>
+        <br>
+        <mat-slider min="1" max="3" step="1" showTickMarks discrete [displayWith]="formatLabel">
+          <input matSliderThumb formControlName="difficulty" matInput>
+        </mat-slider>
+      </div>
+
+      <button mat-raised-button color="primary" (click)="openDialog()" [disabled]="quizForm.invalid">+ Add question</button>
+    </form>
+
+
+    <mat-list role="list">
+      <mat-list-item role="listitem" *ngFor="let oneQuestion of questionsList; let i = index" matBadge="{{i+1}}" matBadgePosition="before" matBadgeColor="primary" appHighlight>
+
+        <div class="one_question_wrapper">
+
+          <div>
+            <p><strong>{{oneQuestion.title}}</strong></p>
+            <span *ngFor="let oneAnswer of oneQuestion.correctAnswers; let j = index">
+              <em>{{oneAnswer}}
+                <ng-template [ngIf]="j < oneQuestion.correctAnswers.length -1">, </ng-template>
+              </em>
+            </span>
+          </div>
+
+          <button mat-raised-button color="warn" (click)="removeQuiz($event, i)">Remove</button>
+        </div>
+
+
+      </mat-list-item>
+    </mat-list>
+
+
+  </mat-card-content>
+
+  <mat-card-footer>
+    <button mat-raised-button color="primary" (click)="saveQuiz()">Finish</button>
+  </mat-card-footer>
+
+</mat-card>
